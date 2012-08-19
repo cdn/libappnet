@@ -119,7 +119,7 @@ app_net_client_create_api_call (AppNetClient *self, AppNetApiCall *call, const g
 }
 
 static char *
-app_net_client_exec_api_call (AppNetApiCall *call, size_t *size)
+app_net_client_exec_api_call (AppNetApiCall *call, const gchar *method, size_t *size)
 {
     static const gchar content_type[] = "application/x-form-www-urlencoded; charset=utf-8";
     guint status;
@@ -130,7 +130,7 @@ app_net_client_exec_api_call (AppNetApiCall *call, size_t *size)
 
     auth_header = g_strdup_printf ("Bearer %s", client->token);
 
-    message = soup_message_new ("GET", call->url);
+    message = soup_message_new (method, call->url);
     soup_message_headers_append (
         message->request_headers, "Authorization", auth_header);
     if (call->body != NULL) {
@@ -159,6 +159,7 @@ app_net_client_destroy_api_call (AppNetApiCall *call)
 GList*
 app_net_client_get_stream (AppNetClient *self)
 {
+    static const gchar method[] = "GET";
     static const gchar endpoint[] = "stream/0/posts/stream";
 
     AppNetApiCall call;
@@ -167,8 +168,9 @@ app_net_client_get_stream (AppNetClient *self)
     size_t size;
     json_t *response = NULL;
     json_error_t error;
+
     app_net_client_create_api_call (self, &call, endpoint);
-    data = app_net_client_exec_api_call (&call, &size);
+    data = app_net_client_exec_api_call (&call, method, &size);
 
     if (data == NULL) {
         g_warning ("%s: API call failed", endpoint);
@@ -204,6 +206,7 @@ done:
 AppNetPost *
 app_net_client_add_post (AppNetClient *self, const gchar *text)
 {
+    static const gchar method[] = "POST";
     static const gchar endpoint[] = "stream/0/posts";
 
     AppNetApiCall call;
@@ -212,9 +215,20 @@ app_net_client_add_post (AppNetClient *self, const gchar *text)
     size_t size;
     json_error_t error;
     json_t *response = NULL;
+    gchar *body;
+    gchar *encoded_text;
+
+    encoded_text = g_uri_escape_string (
+        text, G_URI_RESERVED_CHARS_GENERIC_DELIMITERS, TRUE);
+    body = g_strdup_printf ("text=%s", encoded_text);
+    g_free (encoded_text);
 
     app_net_client_create_api_call (self, &call, endpoint);
-    data = app_net_client_exec_api_call (&call, &size);
+
+    /* XXX this is a bit yuck. call.body is cleaned up automatically. */
+    call.body = body;
+
+    data = app_net_client_exec_api_call (&call, method, &size);
 
     if (data == NULL) {
         g_warning ("%s: API call failed", endpoint);
