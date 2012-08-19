@@ -121,6 +121,7 @@ app_net_client_create_api_call (AppNetClient *self, AppNetApiCall *call, const g
 static char *
 app_net_client_exec_api_call (AppNetApiCall *call, size_t *size)
 {
+    static const gchar content_type[] = "application/x-form-www-urlencoded; charset=utf-8";
     guint status;
     SoupMessage *message;
     gchar *auth_header;
@@ -130,7 +131,13 @@ app_net_client_exec_api_call (AppNetApiCall *call, size_t *size)
     auth_header = g_strdup_printf ("Bearer %s", client->token);
 
     message = soup_message_new ("GET", call->url);
-    soup_message_headers_append (message->request_headers, "Authorization", auth_header);
+    soup_message_headers_append (
+        message->request_headers, "Authorization", auth_header);
+    if (call->body != NULL) {
+        soup_message_set_request (
+            message, content_type, SOUP_MEMORY_STATIC,
+            call->body, strlen (call->body));
+    }
     status = soup_session_send_message (client->session, message);
     if (status >= 200 && status <= 299) {
         *size = message->response_body->length;
@@ -192,5 +199,44 @@ done:
     g_free (data);
     app_net_client_destroy_api_call (&call);
     return posts;
+}
+
+AppNetPost *
+app_net_client_add_post (AppNetClient *self, const gchar *text)
+{
+    static const gchar endpoint[] = "stream/0/posts";
+
+    AppNetApiCall call;
+    AppNetPost *post = NULL;
+    gchar *data;
+    size_t size;
+    json_error_t error;
+    json_t *response = NULL;
+
+    app_net_client_create_api_call (self, &call, endpoint);
+    data = app_net_client_exec_api_call (&call, &size);
+
+    if (data == NULL) {
+        g_warning ("%s: API call failed", endpoint);
+        goto done;
+    }
+
+    response = json_loadb (data, size, 0, &error);
+    if (response == NULL) {
+        g_warning (
+            "%s: %d:%d [offset=%d] %s",
+            endpoint, error.line, error.column, error.position, error.text);
+        goto done;
+    }
+
+    if (json_is_object (response)) {
+        post = _app_net_post_from_json (response);
+    }
+
+done:
+    if (response) json_decref (response);
+    g_free (data);
+    app_net_client_destroy_api_call (&call);
+    return post;
 }
 

@@ -3,6 +3,8 @@
 
 #include <glib-object.h>
 
+#include <appnetpost.h>
+
 #define APP_NET_TYPE_CLIENT (app_net_client_get_type ())
 #define APP_NET_CLIENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APP_NET_TYPE_CLIENT, AppNetClient))
 #define APP_NET_CLIENT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APP_NET_TYPE_CLIENT, AppNetClientClass))
@@ -21,6 +23,9 @@ app_net_client_new (const gchar *base_url, const gchar *client_id, const gchar *
 
 GList*
 app_net_client_get_stream (AppNetClient *self);
+
+AppNetPost *
+app_net_client_add_post (AppNetClient *self, const gchar *text);
 
 #endif
 
