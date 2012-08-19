@@ -29,7 +29,7 @@ AC_SUBST([LIBSOUP_CFLAGS])
 AC_SUBST([LIBSOUP_LIBS])
 
 PKG_CHECK_MODULES([JANSSON],[jansson >= $MIN_JANSSON_VERSION],[],
-                  [MIN_JANSSON_VERSION=$MIN_JANSSON_VERSION
+                  [MIN_JANSSON_VERSION=$FALLBACK_JANSSON_VERSION
                    AC_MSG_WARN([falling back to jansson $MIN_JANSSON_VERSION])
                    PKG_CHECK_MODULES([JANSSON],[jansson >= $MIN_JANSSON_VERSION],[],
                                      [AC_MSG_ERROR([need jansson >= $MIN_JANSSON_VERSION])])])
