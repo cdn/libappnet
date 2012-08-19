@@ -4,7 +4,7 @@
 static
 void _app_net_client_trivial(void)
 {
-    AppNetClient *client = app_net_client_new ("http://localhost/appnetstub");
+    AppNetClient *client = app_net_client_new ("http://localhost/appnetstub", "abcdefg");
     g_object_unref (client);
 }
 
