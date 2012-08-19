@@ -19,5 +19,23 @@ app_net_post_get_type (void);
 AppNetPost*
 app_net_post_new (void);
 
+const gchar *
+app_net_post_get_id (const AppNetPost *self);
+
+const gchar *
+app_net_post_get_thread_id (const AppNetPost *self);
+
+const gchar *
+app_net_post_get_author (const AppNetPost *self);
+
+const gchar *
+app_net_post_get_author_name (const AppNetPost *self);
+
+const gchar *
+app_net_post_get_text (const AppNetPost *self);
+
+const gchar *
+app_net_post_get_html (const AppNetPost *self);
+
 #endif
 
