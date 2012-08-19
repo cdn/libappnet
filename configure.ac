@@ -9,6 +9,10 @@ AC_PROG_LIBTOOL
 MIN_GOBJECT_VERSION=2.30.0
 MIN_LIBSOUP_VERSION=2.30.0
 MIN_JANSSON_VERSION=2.3.0
+#
+# Old versions of jansson had interesting version numbers.
+#
+FALLBACK_JANSSON_VERSION=2.1
 
 PKG_PROG_PKG_CONFIG
 
@@ -25,8 +29,8 @@ AC_SUBST([LIBSOUP_CFLAGS])
 AC_SUBST([LIBSOUP_LIBS])
 
 PKG_CHECK_MODULES([JANSSON],[jansson >= $MIN_JANSSON_VERSION],[],
-                  [MIN_JANSSON_VERSION=2.1
-                   AC_MSG_WARN([falling back to jansson $MIN_JANSSON_VERSION for CI])
+                  [MIN_JANSSON_VERSION=$MIN_JANSSON_VERSION
+                   AC_MSG_WARN([falling back to jansson $MIN_JANSSON_VERSION])
                    PKG_CHECK_MODULES([JANSSON],[jansson >= $MIN_JANSSON_VERSION],[],
                                      [AC_MSG_ERROR([need jansson >= $MIN_JANSSON_VERSION])])])
 AC_SUBST([MIN_JANSSON_VERSION])
