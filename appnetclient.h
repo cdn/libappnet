@@ -17,7 +17,10 @@ GType
 app_net_client_get_type (void);
 
 AppNetClient*
-app_net_client_new (const gchar *base_url, const gchar *token);
+app_net_client_new (const gchar *base_url, const gchar *client_id, const gchar *token);
+
+GList*
+app_net_client_get_stream (AppNetClient *self);
 
 #endif
 
