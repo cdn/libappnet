@@ -11260,7 +11260,7 @@ CC="$lt_save_CC"
 
 MIN_GOBJECT_VERSION=2.30.0
 MIN_LIBSOUP_VERSION=2.30.0
-MIN_JANSSON_VERSION=2.1.0
+MIN_JANSSON_VERSION=2.3.0
 
 
 
@@ -11592,11 +11592,157 @@ fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$JANSSON_PKG_ERRORS" >&5
 
+	MIN_JANSSON_VERSION=2.1
+                   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: falling back to jansson $MIN_JANSSON_VERSION for CI" >&5
+$as_echo "$as_me: WARNING: falling back to jansson $MIN_JANSSON_VERSION for CI" >&2;}
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for JANSSON" >&5
+$as_echo_n "checking for JANSSON... " >&6; }
+
+if test -n "$JANSSON_CFLAGS"; then
+    pkg_cv_JANSSON_CFLAGS="$JANSSON_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"jansson >= \$MIN_JANSSON_VERSION\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "jansson >= $MIN_JANSSON_VERSION") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_JANSSON_CFLAGS=`$PKG_CONFIG --cflags "jansson >= $MIN_JANSSON_VERSION" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$JANSSON_LIBS"; then
+    pkg_cv_JANSSON_LIBS="$JANSSON_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"jansson >= \$MIN_JANSSON_VERSION\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "jansson >= $MIN_JANSSON_VERSION") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_JANSSON_LIBS=`$PKG_CONFIG --libs "jansson >= $MIN_JANSSON_VERSION" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        JANSSON_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "jansson >= $MIN_JANSSON_VERSION" 2>&1`
+        else
+	        JANSSON_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "jansson >= $MIN_JANSSON_VERSION" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$JANSSON_PKG_ERRORS" >&5
+
 	as_fn_error $? "need jansson >= $MIN_JANSSON_VERSION" "$LINENO" 5
 elif test $pkg_failed = untried; then
      	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	as_fn_error $? "need jansson >= $MIN_JANSSON_VERSION" "$LINENO" 5
+else
+	JANSSON_CFLAGS=$pkg_cv_JANSSON_CFLAGS
+	JANSSON_LIBS=$pkg_cv_JANSSON_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+fi
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	MIN_JANSSON_VERSION=2.1
+                   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: falling back to jansson $MIN_JANSSON_VERSION for CI" >&5
+$as_echo "$as_me: WARNING: falling back to jansson $MIN_JANSSON_VERSION for CI" >&2;}
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for JANSSON" >&5
+$as_echo_n "checking for JANSSON... " >&6; }
+
+if test -n "$JANSSON_CFLAGS"; then
+    pkg_cv_JANSSON_CFLAGS="$JANSSON_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"jansson >= \$MIN_JANSSON_VERSION\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "jansson >= $MIN_JANSSON_VERSION") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_JANSSON_CFLAGS=`$PKG_CONFIG --cflags "jansson >= $MIN_JANSSON_VERSION" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$JANSSON_LIBS"; then
+    pkg_cv_JANSSON_LIBS="$JANSSON_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"jansson >= \$MIN_JANSSON_VERSION\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "jansson >= $MIN_JANSSON_VERSION") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_JANSSON_LIBS=`$PKG_CONFIG --libs "jansson >= $MIN_JANSSON_VERSION" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        JANSSON_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "jansson >= $MIN_JANSSON_VERSION" 2>&1`
+        else
+	        JANSSON_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "jansson >= $MIN_JANSSON_VERSION" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$JANSSON_PKG_ERRORS" >&5
+
+	as_fn_error $? "need jansson >= $MIN_JANSSON_VERSION" "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	as_fn_error $? "need jansson >= $MIN_JANSSON_VERSION" "$LINENO" 5
+else
+	JANSSON_CFLAGS=$pkg_cv_JANSSON_CFLAGS
+	JANSSON_LIBS=$pkg_cv_JANSSON_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+fi
 else
 	JANSSON_CFLAGS=$pkg_cv_JANSSON_CFLAGS
 	JANSSON_LIBS=$pkg_cv_JANSSON_LIBS
