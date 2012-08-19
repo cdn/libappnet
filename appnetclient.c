@@ -2,6 +2,7 @@
 
 struct _AppNetClient {
     GObject base;
+    gchar *base_url;
 };
 
 struct _AppNetClientClass {
@@ -28,11 +29,17 @@ app_net_client_class_init (AppNetClientClass *klass)
 static void
 app_net_client_init (AppNetClient *self)
 {
+    self->base_url = NULL;
 }
 
 AppNetClient*
-app_net_client_new (void)
+app_net_client_new (const gchar *base_url)
 {
-    return APP_NET_CLIENT (g_object_new (APP_NET_TYPE_CLIENT, NULL));
+    AppNetClient *c;
+    
+    c = APP_NET_CLIENT (g_object_new (APP_NET_TYPE_CLIENT, NULL));
+    /* TODO use properties */
+    c->base_url = g_strdup (base_url);
+    return c;
 }
 
