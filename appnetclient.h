@@ -4,6 +4,7 @@
 #include <glib-object.h>
 
 #include <appnetpost.h>
+#include <appnethttpprovider.h>
 
 #define APP_NET_TYPE_CLIENT (app_net_client_get_type ())
 #define APP_NET_CLIENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APP_NET_TYPE_CLIENT, AppNetClient))
@@ -20,6 +21,13 @@ app_net_client_get_type (void);
 
 AppNetClient*
 app_net_client_new (const gchar *base_url, const gchar *client_id, const gchar *token);
+
+AppNetClient *
+app_net_client_new_with_http_provider (
+    const gchar *base_url,
+    const gchar *client_id,
+    const gchar *token,
+    AppNetHttpProvider *http_provider);
 
 GList*
 app_net_client_get_stream (AppNetClient *self);

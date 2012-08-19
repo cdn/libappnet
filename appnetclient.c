@@ -1,19 +1,19 @@
 #include <memory.h>
 
-#include <libsoup/soup.h>
 #include <jansson.h>
 
 #include "appnetclient.h"
 
 #include "appnetpost.h"
 #include "appnetpost-private.h"
+#include "appnetsouphttpprovider.h"
 
 struct _AppNetClient {
     GObject base;
     gchar *base_url;
     gchar *client_id;
     gchar *token;
-    SoupSession *session;
+    AppNetHttpProvider *http_provider;
 };
 
 struct _AppNetClientClass {
@@ -23,7 +23,8 @@ struct _AppNetClientClass {
 typedef struct _AppNetApiCall {
     AppNetClient *client;
     gchar *url;
-    gchar *body;
+    guint8 *body;
+    size_t body_size;
 } AppNetApiCall;
 
 G_DEFINE_TYPE (AppNetClient, app_net_client, G_TYPE_OBJECT);
@@ -40,8 +41,8 @@ static void
 app_net_client_dispose (GObject *gobj)
 {
     AppNetClient *self = APP_NET_CLIENT (gobj);
-    g_object_unref (self->session);
-    self->session = NULL;
+    g_object_unref (self->http_provider);
+    self->http_provider = NULL;
 }
 
 static void
@@ -69,10 +70,23 @@ app_net_client_init (AppNetClient *self)
     self->base_url = NULL;
     self->client_id = NULL;
     self->token = NULL;
+    self->http_provider = NULL;
 }
 
 AppNetClient*
 app_net_client_new (const gchar *base_url, const gchar *client_id, const gchar *token)
+{
+    AppNetSoupHttpProvider *http_provider = app_net_soup_http_provider_new ();
+    return app_net_client_new_with_http_provider (
+        base_url, client_id, token, APP_NET_HTTP_PROVIDER (http_provider));
+}
+
+AppNetClient *
+app_net_client_new_with_http_provider (
+    const gchar *base_url,
+    const gchar *client_id,
+    const gchar *token,
+    AppNetHttpProvider *http_provider)
 {
     AppNetClient *c;
     
@@ -81,15 +95,7 @@ app_net_client_new (const gchar *base_url, const gchar *client_id, const gchar *
     c->base_url = g_strdup (base_url);
     c->client_id = g_strdup (client_id);
     c->token = g_strdup (token);
-    /* TODO add HAVE_LIBSOUP_GNOME check to configure.ac */
-    /* TODO SSL certificate verification */
-#ifdef HAVE_LIBSOUP_GNOME
-    c->session = soup_session_sync_new_with_options (
-        SOUP_SESSION_ADD_FEATURE_BY_TYPE, SOUP_TYPE_PROXY_RESOLVER_GNOME,
-        NULL);
-#else
-    c->session = soup_session_sync_new ();
-#endif
+    c->http_provider = http_provider;
 
     return c;
 }
@@ -116,36 +122,41 @@ app_net_client_create_api_call (AppNetClient *self, AppNetApiCall *call, const g
     call->url = app_net_client_url_vformat (self, relpath, args);
     va_end (args);
     call->body = NULL;
+    call->body_size = 0;
 }
 
-static char *
+static guint8 *
 app_net_client_exec_api_call (AppNetApiCall *call, const gchar *method, size_t *size)
 {
     static const gchar content_type[] = "application/x-form-www-urlencoded; charset=utf-8";
     guint status;
+    /*
     SoupMessage *message;
+    */
     gchar *auth_header;
-    char *data = NULL;
+    guint8 *data = NULL;
+    AppNetHttpRequest *req = NULL;
+    AppNetHttpResponse *resp = NULL;
     AppNetClient *client = call->client;
 
+    req = app_net_http_request_new (method, call->url);
     auth_header = g_strdup_printf ("Bearer %s", client->token);
-
-    message = soup_message_new (method, call->url);
-    soup_message_headers_append (
-        message->request_headers, "Authorization", auth_header);
-    if (call->body != NULL) {
-        soup_message_set_request (
-            message, content_type, SOUP_MEMORY_STATIC,
-            call->body, strlen (call->body));
-    }
-    status = soup_session_send_message (client->session, message);
-    if (status >= 200 && status <= 299) {
-        *size = message->response_body->length;
-        data = (char *) g_malloc (*size);
-        memcpy (data, message->response_body->data, *size);
-    }
+    app_net_http_request_add_header (req, "Authorization", auth_header);
     g_free (auth_header);
-    g_object_unref (message);
+    if (call->body != NULL) {
+        /* TODO don't take a copy of the data */
+        app_net_http_request_add_header (req, "Content-Type", content_type);
+        app_net_http_request_set_body (req, call->body, call->body_size);
+    }
+    resp = app_net_http_provider_send_request (
+        APP_NET_HTTP_PROVIDER (client->http_provider), req);
+    status = app_net_http_response_get_status (resp);
+    if (status >= 200 && status <= 299) {
+        app_net_http_response_copy_body (resp, &data, size);
+    }
+
+    g_object_unref (req);
+    g_object_unref (resp);
     return data;
 }
 
@@ -164,7 +175,7 @@ app_net_client_get_stream (AppNetClient *self)
 
     AppNetApiCall call;
     GList *posts = NULL;
-    gchar *data;
+    guint8 *data;
     size_t size;
     json_t *response = NULL;
     json_error_t error;
@@ -177,7 +188,7 @@ app_net_client_get_stream (AppNetClient *self)
         goto done;
     }
 
-    response = json_loadb (data, size, 0, &error);
+    response = json_loadb ((const char *)data, size, 0, &error);
     if (response == NULL) {
         g_warning (
             "%s: %d:%d [offset=%d] %s",
@@ -211,7 +222,7 @@ app_net_client_add_post (AppNetClient *self, const gchar *text)
 
     AppNetApiCall call;
     AppNetPost *post = NULL;
-    gchar *data;
+    guint8 *data;
     size_t size;
     json_error_t error;
     json_t *response = NULL;
@@ -226,7 +237,8 @@ app_net_client_add_post (AppNetClient *self, const gchar *text)
     app_net_client_create_api_call (self, &call, endpoint);
 
     /* XXX this is a bit yuck. call.body is cleaned up automatically. */
-    call.body = body;
+    call.body = (guint8 *) body;
+    call.body_size = strlen (body);
 
     data = app_net_client_exec_api_call (&call, method, &size);
 
@@ -235,7 +247,7 @@ app_net_client_add_post (AppNetClient *self, const gchar *text)
         goto done;
     }
 
-    response = json_loadb (data, size, 0, &error);
+    response = json_loadb ((const char *)data, size, 0, &error);
     if (response == NULL) {
         g_warning (
             "%s: %d:%d [offset=%d] %s",

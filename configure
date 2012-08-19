@@ -11261,6 +11261,10 @@ CC="$lt_save_CC"
 MIN_GOBJECT_VERSION=2.30.0
 MIN_LIBSOUP_VERSION=2.30.0
 MIN_JANSSON_VERSION=2.3.0
+#
+# Old versions of jansson had interesting version numbers.
+#
+FALLBACK_JANSSON_VERSION=2.1
 
 
 
@@ -11592,9 +11596,9 @@ fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$JANSSON_PKG_ERRORS" >&5
 
-	MIN_JANSSON_VERSION=2.1
-                   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: falling back to jansson $MIN_JANSSON_VERSION for CI" >&5
-$as_echo "$as_me: WARNING: falling back to jansson $MIN_JANSSON_VERSION for CI" >&2;}
+	MIN_JANSSON_VERSION=$FALLBACK_JANSSON_VERSION
+                   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: falling back to jansson $MIN_JANSSON_VERSION" >&5
+$as_echo "$as_me: WARNING: falling back to jansson $MIN_JANSSON_VERSION" >&2;}
 
 pkg_failed=no
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for JANSSON" >&5
@@ -11669,9 +11673,9 @@ fi
 elif test $pkg_failed = untried; then
      	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
-	MIN_JANSSON_VERSION=2.1
-                   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: falling back to jansson $MIN_JANSSON_VERSION for CI" >&5
-$as_echo "$as_me: WARNING: falling back to jansson $MIN_JANSSON_VERSION for CI" >&2;}
+	MIN_JANSSON_VERSION=$FALLBACK_JANSSON_VERSION
+                   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: falling back to jansson $MIN_JANSSON_VERSION" >&5
+$as_echo "$as_me: WARNING: falling back to jansson $MIN_JANSSON_VERSION" >&2;}
 
 pkg_failed=no
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for JANSSON" >&5
