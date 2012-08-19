@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -ex
+
+aclocal --install -I m4
+autoconf
+if [ -z "$(which glibtoolize 2>/dev/null)" ]; then
+    libtoolize --copy
+else
+    glibtoolize --copy
+fi
+automake --add-missing --copy
+./configure "$@"
+

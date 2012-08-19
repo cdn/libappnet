@@ -1,0 +1,12 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: appnet
+Description: C client library for app.net
+Requires: gobject-2.0 >= @MIN_GOBJECT_VERSION@, libsoup-2.4 >= @MIN_LIBSOUP_VERSION@, jansson >= @MIN_JANSSON_VERSION@
+Version: @PACKAGE_VERSION@
+Libs: -L${libdir} -lappnet
+Cflags: -I${includedir}
+
