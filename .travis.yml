@@ -1,3 +1,7 @@
 language: c
+install:
+    - sudo apt-get install libsoup2.4-dev
+    - sudo apt-get install libjansson-dev
+    - sudo apt-get install libglib2.0-dev
 script: "./configure && make && make check"
 
