@@ -4,7 +4,7 @@
 
 struct _AppNetHttpResponse {
     GObject  base;
-    guint8  *body;
+    char    *body;
     size_t   body_size;
     gboolean copied;
     guint    status;
@@ -52,26 +52,26 @@ app_net_http_response_init (AppNetHttpResponse *self)
 }
 
 AppNetHttpResponse*
-app_net_http_response_new (guint status, const guint8 *body, const size_t size)
+app_net_http_response_new (guint status, const char *body, const size_t size)
 {
     AppNetHttpResponse *self =
         APP_NET_HTTP_RESPONSE (g_object_new (APP_NET_TYPE_HTTP_RESPONSE, NULL));
     /* TODO use properties */
     self->status = status;
-    self->body = (guint8 *) body;
+    self->body = (char *) body;
     self->body_size = size;
     self->copied = FALSE;
     return self;
 }
 
 AppNetHttpResponse*
-app_net_http_response_new_with_copy (guint status, const guint8 *body, const size_t size)
+app_net_http_response_new_with_copy (guint status, const char *body, const size_t size)
 {
     AppNetHttpResponse *self =
         APP_NET_HTTP_RESPONSE (g_object_new (APP_NET_TYPE_HTTP_RESPONSE, NULL));
     /* TODO use properties */
     self->status = status;
-    self->body = g_malloc (size);
+    self->body = (char *) g_malloc (size);
     memcpy (self->body, body, size);
     self->body_size = size;
     self->copied = TRUE;
@@ -84,7 +84,7 @@ app_net_http_response_get_status (const AppNetHttpResponse *self)
     return self->status;
 }
 
-const guint8*
+const char *
 app_net_http_response_get_body (const AppNetHttpResponse *self)
 {
     return self->body;
@@ -97,9 +97,9 @@ app_net_http_response_get_body_size (const AppNetHttpResponse *self)
 }
 
 void
-app_net_http_response_copy_body (const AppNetHttpResponse *self, guint8 **data, size_t *size)
+app_net_http_response_copy_body (const AppNetHttpResponse *self, char **data, size_t *size)
 {
-    *data = g_malloc (self->body_size);
+    *data = (char *) g_malloc (self->body_size);
     memcpy (*data, self->body, self->body_size);
     *size = self->body_size;
 }

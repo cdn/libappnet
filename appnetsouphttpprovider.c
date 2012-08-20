@@ -107,21 +107,19 @@ app_net_soup_http_provider_send_request (AppNetHttpProvider *iface, AppNetHttpRe
     g_list_foreach (headers, app_net_soup_http_provider_add_header, message);
 
     if (app_net_http_request_get_body (r) != NULL) {
-        const guint8 *body = app_net_http_request_get_body (r);
+        const char *body = app_net_http_request_get_body (r);
         size_t body_size = app_net_http_request_get_body_size (r);
         if (content_type == NULL) {
             g_warning ("missing Content-Type header?");
         }
         soup_message_set_request (
-            message, content_type, SOUP_MEMORY_STATIC,
-            (const char *) body, body_size);
+            message, content_type, SOUP_MEMORY_STATIC, body, body_size);
     }
     g_free (content_type);
 
     status = soup_session_send_message (self->session, message);
     resp = app_net_http_response_new_with_copy (
-        status, (const guint8 *) message->response_body->data,
-        message->response_body->length);
+        status, message->response_body->data, message->response_body->length);
     g_object_unref (message);
     g_list_free (headers);
     return resp;

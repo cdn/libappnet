@@ -17,22 +17,22 @@ GType
 app_net_http_response_get_type (void);
 
 AppNetHttpResponse*
-app_net_http_response_new (guint status, const guint8 *body, const size_t size);
+app_net_http_response_new (guint status, const char *body, const size_t size);
 
 AppNetHttpResponse*
-app_net_http_response_new_with_copy (guint status, const guint8 *body, const size_t size);
+app_net_http_response_new_with_copy (guint status, const char *body, const size_t size);
 
 guint
 app_net_http_response_get_status (const AppNetHttpResponse *self);
 
-const guint8*
+const char*
 app_net_http_response_get_body (const AppNetHttpResponse *self);
 
 size_t
 app_net_http_response_get_body_size (const AppNetHttpResponse *self);
 
 void
-app_net_http_response_copy_body (const AppNetHttpResponse *self, guint8 **data, size_t *size);
+app_net_http_response_copy_body (const AppNetHttpResponse *self, char **data, size_t *size);
 
 #endif
 

@@ -33,7 +33,7 @@ app_net_http_request_get_headers (const AppNetHttpRequest *self);
 
 void
 app_net_http_request_set_body (
-    AppNetHttpRequest *self, const guint8 *body, size_t size);
+    AppNetHttpRequest *self, const char *body, size_t size);
 
 const gchar *
 app_net_http_request_get_method (const AppNetHttpRequest *self);
@@ -41,7 +41,7 @@ app_net_http_request_get_method (const AppNetHttpRequest *self);
 const gchar *
 app_net_http_request_get_url (const AppNetHttpRequest *self);
 
-const guint8 *
+const char *
 app_net_http_request_get_body (const AppNetHttpRequest *self);
 
 size_t

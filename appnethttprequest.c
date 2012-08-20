@@ -6,7 +6,7 @@ struct _AppNetHttpRequest {
     GObject base;
     gchar *method;
     gchar *url;
-    guint8 *body;
+    char *body;
     size_t  body_size;
     GList *headers;
 };
@@ -92,7 +92,7 @@ app_net_http_request_get_headers (const AppNetHttpRequest *self)
 
 void
 app_net_http_request_set_body (
-    AppNetHttpRequest *self, const guint8 *body, size_t size)
+    AppNetHttpRequest *self, const char *body, size_t size)
 {
     g_free (self->body);
     self->body = g_malloc (size);
@@ -112,7 +112,7 @@ app_net_http_request_get_url (const AppNetHttpRequest *self)
     return self->url;
 }
 
-const guint8 *
+const char *
 app_net_http_request_get_body (const AppNetHttpRequest *self)
 {
     return self->body;

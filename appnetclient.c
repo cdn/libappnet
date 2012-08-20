@@ -23,7 +23,7 @@ struct _AppNetClientClass {
 typedef struct _AppNetApiCall {
     AppNetClient *client;
     gchar *url;
-    guint8 *body;
+    char *body;
     size_t body_size;
 } AppNetApiCall;
 
@@ -125,7 +125,7 @@ app_net_client_create_api_call (AppNetClient *self, AppNetApiCall *call, const g
     call->body_size = 0;
 }
 
-static guint8 *
+static char *
 app_net_client_exec_api_call (AppNetApiCall *call, const gchar *method, size_t *size)
 {
     static const gchar content_type[] = "application/x-form-www-urlencoded; charset=utf-8";
@@ -134,7 +134,7 @@ app_net_client_exec_api_call (AppNetApiCall *call, const gchar *method, size_t *
     SoupMessage *message;
     */
     gchar *auth_header;
-    guint8 *data = NULL;
+    char *data = NULL;
     AppNetHttpRequest *req = NULL;
     AppNetHttpResponse *resp = NULL;
     AppNetClient *client = call->client;
@@ -175,7 +175,7 @@ app_net_client_get_stream (AppNetClient *self)
 
     AppNetApiCall call;
     GList *posts = NULL;
-    guint8 *data;
+    char *data;
     size_t size;
     json_t *response = NULL;
     json_error_t error;
@@ -188,7 +188,7 @@ app_net_client_get_stream (AppNetClient *self)
         goto done;
     }
 
-    response = json_loadb ((const char *)data, size, 0, &error);
+    response = json_loadb (data, size, 0, &error);
     if (response == NULL) {
         g_warning (
             "%s: %d:%d [offset=%d] %s",
@@ -222,7 +222,7 @@ app_net_client_add_post (AppNetClient *self, const gchar *text)
 
     AppNetApiCall call;
     AppNetPost *post = NULL;
-    guint8 *data;
+    char *data;
     size_t size;
     json_error_t error;
     json_t *response = NULL;
@@ -237,7 +237,7 @@ app_net_client_add_post (AppNetClient *self, const gchar *text)
     app_net_client_create_api_call (self, &call, endpoint);
 
     /* XXX this is a bit yuck. call.body is cleaned up automatically. */
-    call.body = (guint8 *) body;
+    call.body = body;
     call.body_size = strlen (body);
 
     data = app_net_client_exec_api_call (&call, method, &size);
@@ -247,7 +247,7 @@ app_net_client_add_post (AppNetClient *self, const gchar *text)
         goto done;
     }
 
-    response = json_loadb ((const char *)data, size, 0, &error);
+    response = json_loadb (data, size, 0, &error);
     if (response == NULL) {
         g_warning (
             "%s: %d:%d [offset=%d] %s",
