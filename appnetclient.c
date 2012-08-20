@@ -11,7 +11,6 @@
 struct _AppNetClient {
     GObject base;
     gchar *base_url;
-    gchar *client_id;
     gchar *token;
     AppNetHttpProvider *http_provider;
 };
@@ -51,7 +50,6 @@ app_net_client_finalize (GObject *gobj)
     AppNetClient *self = APP_NET_CLIENT (gobj);
     
     g_free (self->base_url);
-    g_free (self->client_id);
     g_free (self->token);
 }
 
@@ -68,23 +66,21 @@ static void
 app_net_client_init (AppNetClient *self)
 {
     self->base_url = NULL;
-    self->client_id = NULL;
     self->token = NULL;
     self->http_provider = NULL;
 }
 
 AppNetClient*
-app_net_client_new (const gchar *base_url, const gchar *client_id, const gchar *token)
+app_net_client_new (const gchar *base_url, const gchar *token)
 {
     AppNetSoupHttpProvider *http_provider = app_net_soup_http_provider_new ();
     return app_net_client_new_with_http_provider (
-        base_url, client_id, token, APP_NET_HTTP_PROVIDER (http_provider));
+        base_url, token, APP_NET_HTTP_PROVIDER (http_provider));
 }
 
 AppNetClient *
 app_net_client_new_with_http_provider (
     const gchar *base_url,
-    const gchar *client_id,
     const gchar *token,
     AppNetHttpProvider *http_provider)
 {
@@ -93,7 +89,6 @@ app_net_client_new_with_http_provider (
     c = APP_NET_CLIENT (g_object_new (APP_NET_TYPE_CLIENT, NULL));
     /* TODO use properties */
     c->base_url = g_strdup (base_url);
-    c->client_id = g_strdup (client_id);
     c->token = g_strdup (token);
     c->http_provider = http_provider;
 
