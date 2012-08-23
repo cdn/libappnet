@@ -16,4 +16,5 @@ Makefile
 !/test/*.h
 !/test/Makefile.am
 !/test/Makefile.in
+!/test/data
 /appnet/appnet.h
