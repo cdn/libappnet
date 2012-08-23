@@ -95,7 +95,6 @@ app_net_soup_http_provider_send_request (AppNetHttpProvider *iface, AppNetHttpRe
         AppNetHttpRequestHeader *header =
             (AppNetHttpRequestHeader *) ptr->data;
         content_type = header->value;
-        g_free (header->name);
         headers = g_list_delete_link (headers, ptr);
     }
 
@@ -115,7 +114,6 @@ app_net_soup_http_provider_send_request (AppNetHttpProvider *iface, AppNetHttpRe
         soup_message_set_request (
             message, content_type, SOUP_MEMORY_STATIC, body, body_size);
     }
-    g_free (content_type);
 
     status = soup_session_send_message (self->session, message);
     resp = app_net_http_response_new_with_copy (
