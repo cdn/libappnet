@@ -66,7 +66,8 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am_test_appnetclient_OBJECTS =  \
-	test_appnetclient-test_appnetclient.$(OBJEXT)
+	test_appnetclient-test_appnetclient.$(OBJEXT) \
+	test_appnetclient-appnetstubhttpprovider.$(OBJEXT)
 test_appnetclient_OBJECTS = $(am_test_appnetclient_OBJECTS)
 test_appnetclient_DEPENDENCIES = $(top_srcdir)/libappnet.la
 test_appnetclient_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
@@ -227,7 +228,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-test_appnetclient_SOURCES = test_appnetclient.c
+test_appnetclient_SOURCES = test_appnetclient.c appnetstubhttpprovider.c
 test_appnetclient_CFLAGS = -Wall -Werror -I$(top_srcdir) @GOBJECT_CFLAGS@
 test_appnetclient_LDADD = $(top_srcdir)/libappnet.la
 all: all-am
@@ -283,6 +284,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_appnetclient-appnetstubhttpprovider.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_appnetclient-test_appnetclient.Po@am__quote@
 
 .c.o:
@@ -319,6 +321,20 @@ test_appnetclient-test_appnetclient.obj: test_appnetclient.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test_appnetclient.c' object='test_appnetclient-test_appnetclient.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_appnetclient_CFLAGS) $(CFLAGS) -c -o test_appnetclient-test_appnetclient.obj `if test -f 'test_appnetclient.c'; then $(CYGPATH_W) 'test_appnetclient.c'; else $(CYGPATH_W) '$(srcdir)/test_appnetclient.c'; fi`
+
+test_appnetclient-appnetstubhttpprovider.o: appnetstubhttpprovider.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_appnetclient_CFLAGS) $(CFLAGS) -MT test_appnetclient-appnetstubhttpprovider.o -MD -MP -MF $(DEPDIR)/test_appnetclient-appnetstubhttpprovider.Tpo -c -o test_appnetclient-appnetstubhttpprovider.o `test -f 'appnetstubhttpprovider.c' || echo '$(srcdir)/'`appnetstubhttpprovider.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/test_appnetclient-appnetstubhttpprovider.Tpo $(DEPDIR)/test_appnetclient-appnetstubhttpprovider.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='appnetstubhttpprovider.c' object='test_appnetclient-appnetstubhttpprovider.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_appnetclient_CFLAGS) $(CFLAGS) -c -o test_appnetclient-appnetstubhttpprovider.o `test -f 'appnetstubhttpprovider.c' || echo '$(srcdir)/'`appnetstubhttpprovider.c
+
+test_appnetclient-appnetstubhttpprovider.obj: appnetstubhttpprovider.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_appnetclient_CFLAGS) $(CFLAGS) -MT test_appnetclient-appnetstubhttpprovider.obj -MD -MP -MF $(DEPDIR)/test_appnetclient-appnetstubhttpprovider.Tpo -c -o test_appnetclient-appnetstubhttpprovider.obj `if test -f 'appnetstubhttpprovider.c'; then $(CYGPATH_W) 'appnetstubhttpprovider.c'; else $(CYGPATH_W) '$(srcdir)/appnetstubhttpprovider.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/test_appnetclient-appnetstubhttpprovider.Tpo $(DEPDIR)/test_appnetclient-appnetstubhttpprovider.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='appnetstubhttpprovider.c' object='test_appnetclient-appnetstubhttpprovider.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_appnetclient_CFLAGS) $(CFLAGS) -c -o test_appnetclient-appnetstubhttpprovider.obj `if test -f 'appnetstubhttpprovider.c'; then $(CYGPATH_W) 'appnetstubhttpprovider.c'; else $(CYGPATH_W) '$(srcdir)/appnetstubhttpprovider.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
