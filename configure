@@ -12426,7 +12426,7 @@ fi
 
 
 
-ac_config_files="$ac_config_files Makefile test/Makefile appnet.pc"
+ac_config_files="$ac_config_files Makefile test/Makefile libappnet.pc"
 
 
 cat >confcache <<\_ACEOF
@@ -13447,7 +13447,7 @@ do
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "test/Makefile") CONFIG_FILES="$CONFIG_FILES test/Makefile" ;;
-    "appnet.pc") CONFIG_FILES="$CONFIG_FILES appnet.pc" ;;
+    "libappnet.pc") CONFIG_FILES="$CONFIG_FILES libappnet.pc" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

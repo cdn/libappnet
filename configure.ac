@@ -39,7 +39,7 @@ AC_SUBST([JANSSON_LIBS])
 
 AC_PROG_CC
 
-AC_CONFIG_FILES([Makefile test/Makefile appnet.pc])
+AC_CONFIG_FILES([Makefile test/Makefile libappnet.pc])
 
 AC_OUTPUT
 
