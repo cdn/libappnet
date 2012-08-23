@@ -1,7 +1,8 @@
 TESTS = test_appnetclient
 
 dist_noinst_HEADERS = appnetstubhttpprovider.h
-dist_noinst_DATA = data/appnetclient_add-post
+dist_noinst_DATA = data/appnetclient_add-post \
+				   data/appnetclient_timeline
 
 check_PROGRAMS = test_appnetclient
 test_appnetclient_SOURCES = test_appnetclient.c appnetstubhttpprovider.c

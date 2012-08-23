@@ -234,7 +234,9 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 dist_noinst_HEADERS = appnetstubhttpprovider.h
-dist_noinst_DATA = data/appnetclient_add-post
+dist_noinst_DATA = data/appnetclient_add-post \
+				   data/appnetclient_timeline
+
 test_appnetclient_SOURCES = test_appnetclient.c appnetstubhttpprovider.c
 test_appnetclient_CFLAGS = -Wall -Werror -I$(top_srcdir) @GOBJECT_CFLAGS@
 test_appnetclient_LDADD = $(top_srcdir)/libappnet.la
