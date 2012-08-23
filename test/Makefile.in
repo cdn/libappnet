@@ -14,6 +14,8 @@
 # PARTICULAR PURPOSE.
 
 @SET_MAKE@
+
+
 VPATH = @srcdir@
 am__make_dryrun = \
   { \
@@ -54,7 +56,8 @@ target_triplet = @target@
 TESTS = test_appnetclient$(EXEEXT)
 check_PROGRAMS = test_appnetclient$(EXEEXT)
 subdir = test
-DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
+DIST_COMMON = $(dist_noinst_DATA) $(dist_noinst_HEADERS) \
+	$(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
@@ -94,6 +97,8 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+DATA = $(dist_noinst_DATA)
+HEADERS = $(dist_noinst_HEADERS)
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
@@ -228,6 +233,8 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+dist_noinst_HEADERS = appnetstubhttpprovider.h
+dist_noinst_DATA = data/appnetclient_add-post
 test_appnetclient_SOURCES = test_appnetclient.c appnetstubhttpprovider.c
 test_appnetclient_CFLAGS = -Wall -Werror -I$(top_srcdir) @GOBJECT_CFLAGS@
 test_appnetclient_LDADD = $(top_srcdir)/libappnet.la
@@ -521,7 +528,7 @@ check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS)
 	$(MAKE) $(AM_MAKEFLAGS) check-TESTS
 check: check-am
-all-am: Makefile
+all-am: Makefile $(DATA) $(HEADERS)
 installdirs:
 install: install-am
 install-exec: install-exec-am
