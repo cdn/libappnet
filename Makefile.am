@@ -14,6 +14,9 @@ dist_noinst_HEADERS = appnet/appnetpost-private.h
 
 dist_noinst_SCRIPTS = script/make-appnet-h
 
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = libappnet.pc
+
 lib_LTLIBRARIES = libappnet.la
 libappnet_la_SOURCES = appnetclient.c \
 					   appnetpost.c \
