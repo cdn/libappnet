@@ -167,7 +167,7 @@ app_net_client_destroy_api_call (AppNetApiCall *call)
 }
 
 GList*
-app_net_client_get_stream (AppNetClient *self)
+app_net_client_timeline (AppNetClient *self)
 {
     static const gchar method[] = "GET";
     static const gchar endpoint[] = "stream/0/posts/stream";
