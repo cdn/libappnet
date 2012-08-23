@@ -5,9 +5,9 @@ set -ex
 aclocal --install -I m4 --force
 autoconf
 if [ -z "$(which glibtoolize 2>/dev/null)" ]; then
-    libtoolize --copy
+    libtoolize --install --copy
 else
-    glibtoolize --copy
+    glibtoolize --install --copy
 fi
 automake --add-missing --copy
 ./configure "$@"
