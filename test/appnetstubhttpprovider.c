@@ -116,6 +116,5 @@ app_net_stub_http_provider_set_response (
 {
     if (self->response != NULL) g_object_unref (self->response);
     self->response = resp;
-    if (self->response != NULL) g_object_ref (self->response);
 }
 
