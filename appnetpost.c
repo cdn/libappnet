@@ -154,6 +154,8 @@ app_net_post_finalize (GObject *gobj)
     g_list_free (post->mentions);
     g_list_free (post->links);
     */
+
+    G_OBJECT_CLASS (app_net_post_parent_class)->finalize (gobj);
 }
 
 static void

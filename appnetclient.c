@@ -42,6 +42,8 @@ app_net_client_dispose (GObject *gobj)
     AppNetClient *self = APP_NET_CLIENT (gobj);
     g_object_unref (self->http_provider);
     self->http_provider = NULL;
+
+    G_OBJECT_CLASS (app_net_client_parent_class)->dispose (gobj);
 }
 
 static void
@@ -51,6 +53,8 @@ app_net_client_finalize (GObject *gobj)
     
     g_free (self->base_url);
     g_free (self->token);
+
+    G_OBJECT_CLASS (app_net_client_parent_class)->finalize (gobj);
 }
 
 static void

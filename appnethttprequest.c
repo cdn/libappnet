@@ -43,6 +43,8 @@ app_net_http_request_finalize (GObject *gobj)
     g_free (self->url);
     g_free (self->body);
     g_list_free_full (self->headers, app_net_http_request_header_free);
+
+    G_OBJECT_CLASS (app_net_http_request_parent_class)->finalize (gobj);
 }
 
 static void

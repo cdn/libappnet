@@ -32,6 +32,8 @@ app_net_http_response_finalize (GObject *gobj)
     if (self->copied) {
         g_free (self->body);
     }
+
+    G_OBJECT_CLASS (app_net_http_response_parent_class)->finalize (gobj);
 }
 
 static void

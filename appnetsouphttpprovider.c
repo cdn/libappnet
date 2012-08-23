@@ -34,6 +34,8 @@ app_net_soup_http_provider_dispose (GObject *gobj)
         APP_NET_SOUP_HTTP_PROVIDER (gobj);
     g_object_unref (self->session);
     self->session = NULL;
+
+    G_OBJECT_CLASS (app_net_soup_http_provider_parent_class)->dispose (gobj);
 }
 
 static void
