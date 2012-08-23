@@ -12,6 +12,8 @@ nobase_include_HEADERS = appnet/appnetclient.h \
 
 dist_noinst_HEADERS = appnet/appnetpost-private.h
 
+dist_noinst_SCRIPTS = script/make-appnet-h
+
 lib_LTLIBRARIES = libappnet.la
 libappnet_la_SOURCES = appnetclient.c \
 					   appnetpost.c \
