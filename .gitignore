@@ -18,3 +18,5 @@ Makefile
 !/test/Makefile.in
 !/test/data
 /appnet/appnet.h
+*.tar.gz
+
