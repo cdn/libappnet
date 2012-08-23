@@ -2,11 +2,11 @@
 
 #include <jansson.h>
 
-#include "appnetclient.h"
+#include <appnet/appnetclient.h>
 
-#include "appnetpost.h"
-#include "appnetpost-private.h"
-#include "appnetsouphttpprovider.h"
+#include <appnet/appnetpost.h>
+#include <appnet/appnetpost-private.h>
+#include <appnet/appnetsouphttpprovider.h>
 
 struct _AppNetClient {
     GObject base;

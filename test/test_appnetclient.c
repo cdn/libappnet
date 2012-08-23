@@ -1,5 +1,6 @@
 #include <glib.h>
-#include "appnetclient.h"
+
+#include <appnet/appnet.h>
 
 static
 void _app_net_client_trivial(void)

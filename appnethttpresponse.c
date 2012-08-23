@@ -1,6 +1,6 @@
 #include <memory.h>
 
-#include "appnethttpresponse.h"
+#include <appnet/appnethttpresponse.h>
 
 struct _AppNetHttpResponse {
     GObject  base;

@@ -1,4 +1,4 @@
-#include "appnethttpprovider.h"
+#include <appnet/appnethttpprovider.h>
 
 G_DEFINE_INTERFACE (AppNetHttpProvider, app_net_http_provider, G_TYPE_OBJECT);
 

@@ -2,7 +2,7 @@
 
 #include <libsoup/soup.h>
 
-#include "appnetsouphttpprovider.h"
+#include <appnet/appnetsouphttpprovider.h>
 
 struct _AppNetSoupHttpProvider {
     GObject base;

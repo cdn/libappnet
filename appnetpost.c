@@ -1,7 +1,7 @@
 #include <jansson.h>
 
-#include "appnetpost.h"
-#include "appnetpost-private.h"
+#include <appnet/appnetpost.h>
+#include <appnet/appnetpost-private.h>
 
 enum {
     PROP_APP_NET_POST_ID=1,

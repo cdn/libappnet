@@ -15,3 +15,4 @@ Makefile
 !/test/*.c
 !/test/Makefile.am
 !/test/Makefile.in
+/appnet/appnet.h

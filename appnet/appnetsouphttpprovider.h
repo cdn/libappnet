@@ -3,7 +3,7 @@
 
 #include <glib-object.h>
 
-#include <appnethttpprovider.h>
+#include <appnet/appnethttpprovider.h>
 
 #define APP_NET_TYPE_SOUP_HTTP_PROVIDER (app_net_soup_http_provider_get_type ())
 #define APP_NET_SOUP_HTTP_PROVIDER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APP_NET_TYPE_SOUP_HTTP_PROVIDER, AppNetSoupHttpProvider))

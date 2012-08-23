@@ -3,8 +3,8 @@
 
 #include <glib-object.h>
 
-#include <appnethttprequest.h>
-#include <appnethttpresponse.h>
+#include <appnet/appnethttprequest.h>
+#include <appnet/appnethttpresponse.h>
 
 #define APP_NET_TYPE_HTTP_PROVIDER (app_net_http_provider_get_type ())
 #define APP_NET_HTTP_PROVIDER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APP_NET_TYPE_HTTP_PROVIDER, AppNetHttpProvider))
