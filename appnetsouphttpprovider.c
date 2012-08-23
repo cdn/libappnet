@@ -110,7 +110,7 @@ app_net_soup_http_provider_send_request (AppNetHttpProvider *iface, AppNetHttpRe
         const char *body = app_net_http_request_get_body (r);
         size_t body_size = app_net_http_request_get_body_size (r);
         if (content_type == NULL) {
-            g_warning ("missing Content-Type header?");
+            g_warning ("missing Content-Type header with a request body");
         }
         soup_message_set_request (
             message, content_type, SOUP_MEMORY_STATIC, body, body_size);
