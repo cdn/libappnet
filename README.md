@@ -1,5 +1,7 @@
 # libappnet
 
+[![Build Status](https://secure.travis-ci.org/thomaslee/libappnet.png)](http://travis-ci.org/thomaslee/libappnet)
+
 A C client library for [app.net](http://join.app.net)
 
 ## Status
