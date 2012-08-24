@@ -19,4 +19,15 @@ Makefile
 !/test/data
 /libappnet/appnet/appnet.h
 *.tar.gz
-
+/docs/reference/libappnet/xml
+/docs/reference/libappnet/html
+/docs/reference/libappnet/libappnet-decl*.txt
+/docs/reference/libappnet/libappnet-undeclared*.txt
+/docs/reference/libappnet/libappnet-undocumented*.txt
+/docs/reference/libappnet/libappnet-unused*.txt
+/docs/reference/libappnet/libappnet.hierarchy
+/docs/reference/libappnet/libappnet.interfaces
+/docs/reference/libappnet/libappnet.prerequisites
+/docs/reference/libappnet/libappnet.signals
+/docs/reference/libappnet/libappnet.args
+*.stamp
