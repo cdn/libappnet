@@ -161,6 +161,7 @@ app_net_post_finalize (GObject *gobj)
 static void
 app_net_post_class_init (AppNetPostClass *klass)
 {
+    gsize i;
     GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
     gobject_class->constructor = app_net_post_constructor;
     gobject_class->set_property = app_net_post_set_property;
@@ -203,8 +204,16 @@ app_net_post_class_init (AppNetPostClass *klass)
                             "Get/set the post HTML",
                             NULL,
                             G_PARAM_READWRITE);
+
+    for (i = 1; i < NUM_APP_NET_POST_PROPERTIES; i++) {
+        g_object_class_install_property (gobject_class, i, properties[i]);
+    }
+
+    /* available in glib 2.26 */
+    /*
     g_object_class_install_properties (
         gobject_class, NUM_APP_NET_POST_PROPERTIES, properties);
+    */
 }
 
 static void
