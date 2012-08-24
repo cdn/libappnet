@@ -196,7 +196,7 @@ app_net_client_build_stream_path (
     }
     if (count > 0) {
         g_ptr_array_add (
-            params, g_strdup_printf ("count=%lu", count));
+            params, g_strdup_printf ("count=%" G_GSIZE_FORMAT, count));
     }
     g_ptr_array_set_size (params, params->len + 1);
     paramv = (gchar **) g_ptr_array_free (params, FALSE);
