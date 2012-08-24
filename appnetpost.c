@@ -293,3 +293,16 @@ app_net_post_get_html (const AppNetPost *self)
     return self->html;
 }
 
+static void
+app_net_post_free (gpointer ptr)
+{
+    AppNetPost *self = APP_NET_POST (ptr);
+    g_object_unref (self);
+}
+
+void
+app_net_post_free_list (GList *posts)
+{
+    g_list_free_full (posts, app_net_post_free);
+}
+
