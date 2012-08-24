@@ -29,7 +29,12 @@ app_net_client_new_with_http_provider (
     AppNetHttpProvider *http_provider);
 
 GList*
-app_net_client_timeline (AppNetClient *self);
+app_net_client_get_stream_before (
+    AppNetClient *self, const gchar *before_id, gsize count);
+
+GList*
+app_net_client_get_stream_since (
+    AppNetClient *self, const gchar *since_id, gsize count);
 
 AppNetPost *
 app_net_client_add_post (AppNetClient *self, const gchar *text);

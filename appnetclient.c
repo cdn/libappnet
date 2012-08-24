@@ -112,7 +112,8 @@ app_net_client_url_vformat (const AppNetClient *self, const gchar *relpath, va_l
 }
 
 static void
-app_net_client_create_api_call (AppNetClient *self, AppNetApiCall *call, const gchar *relpath, ...)
+app_net_client_create_api_call (
+    AppNetClient *self, AppNetApiCall *call, const gchar *relpath, ...)
 {
     va_list args;
 
@@ -166,8 +167,59 @@ app_net_client_destroy_api_call (AppNetApiCall *call)
     g_free (call->body);
 }
 
-GList*
-app_net_client_timeline (AppNetClient *self)
+static gchar*
+app_net_client_build_stream_path (
+    const gchar *endpoint,
+    const gchar *before_id,
+    const gchar *since_id,
+    gsize count
+)
+{
+    GPtrArray *params;
+    gchar **paramv;
+    gchar *final;
+
+    params = g_ptr_array_new ();
+    if (before_id != NULL) {
+        gchar *encoded = g_uri_escape_string (
+            before_id, G_URI_RESERVED_CHARS_GENERIC_DELIMITERS, TRUE);
+        g_ptr_array_add (
+            params, g_strdup_printf ("before_id=%s", encoded));
+        g_free (encoded);
+    }
+    if (since_id != NULL) {
+        gchar *encoded = g_uri_escape_string (
+            since_id, G_URI_RESERVED_CHARS_GENERIC_DELIMITERS, TRUE);
+        g_ptr_array_add (
+            params, g_strdup_printf ("since_id=%s", encoded));
+        g_free (encoded);
+    }
+    if (count > 0) {
+        g_ptr_array_add (
+            params, g_strdup_printf ("count=%lu", count));
+    }
+    g_ptr_array_set_size (params, params->len + 1);
+    paramv = (gchar **) g_ptr_array_free (params, FALSE);
+    if (paramv[0] != NULL) {
+        gchar *param_str = g_strjoinv ("&", paramv);
+        final = g_strdup_printf ("%s?%s", endpoint, param_str);
+        g_free (param_str);
+    }
+    else {
+        final = g_strdup (endpoint);
+    }
+    g_strfreev (paramv);
+
+    return final;
+}
+
+static GList*
+app_net_client_get_stream (
+    AppNetClient *self,
+    const gchar *before_id,
+    const gchar *since_id,
+    gsize count
+)
 {
     static const gchar method[] = "GET";
     static const gchar endpoint[] = "stream/0/posts/stream";
@@ -178,8 +230,12 @@ app_net_client_timeline (AppNetClient *self)
     size_t size;
     json_t *response = NULL;
     json_error_t error;
+    gchar *path;
 
-    app_net_client_create_api_call (self, &call, endpoint);
+    path = app_net_client_build_stream_path (
+            endpoint, before_id, since_id, count);
+    app_net_client_create_api_call (self, &call, "%s", path);
+    g_free (path);
     data = app_net_client_exec_api_call (&call, method, &size);
 
     if (data == NULL) {
@@ -213,6 +269,20 @@ done:
     return posts;
 }
 
+GList*
+app_net_client_get_stream_before (
+    AppNetClient *self, const gchar *before_id, gsize count)
+{
+    return app_net_client_get_stream (self, before_id, NULL, count);
+}
+
+GList*
+app_net_client_get_stream_after (
+    AppNetClient *self, const gchar *since_id, gsize count)
+{
+    return app_net_client_get_stream (self, NULL, since_id, count);
+}
+
 AppNetPost *
 app_net_client_add_post (AppNetClient *self, const gchar *text)
 {
@@ -233,7 +303,7 @@ app_net_client_add_post (AppNetClient *self, const gchar *text)
     body = g_strdup_printf ("text=%s", encoded_text);
     g_free (encoded_text);
 
-    app_net_client_create_api_call (self, &call, endpoint);
+    app_net_client_create_api_call (self, &call, "%s", endpoint);
 
     /* XXX this is a bit yuck. call.body is cleaned up automatically. */
     call.body = body;

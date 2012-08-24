@@ -79,7 +79,7 @@ _app_net_client_add_post (void)
 }
 
 static void
-_app_net_client_timeline (void)
+_app_net_client_get_stream_before (void)
 {
     AppNetClient *client;
     AppNetStubHttpProvider *stub;
@@ -100,10 +100,10 @@ _app_net_client_timeline (void)
 
     resp = app_net_http_response_new (200, body, bodylen);
     app_net_stub_http_provider_set_response (stub, resp);
-    posts = app_net_client_timeline (client);
+    posts = app_net_client_get_stream_before (client, "abc", 0);
 
     req = app_net_stub_http_provider_get_request (stub);
-    url = g_strdup_printf ("%s/stream/0/posts/stream", base_url);
+    url = g_strdup_printf ("%s/stream/0/posts/stream?before_id=abc", base_url);
     g_assert_cmpstr (app_net_http_request_get_url (req), ==, url);
     g_free (url);
 
@@ -128,7 +128,7 @@ main (int argc, char **argv)
 
     g_test_add_func ("/appnetclient/trivial", _app_net_client_trivial);
     g_test_add_func ("/appnetclient/add_post", _app_net_client_add_post);
-    g_test_add_func ("/appnetclient/timeline", _app_net_client_timeline);
+    g_test_add_func ("/appnetclient/get_stream_before", _app_net_client_get_stream_before);
 
     g_test_run ();
 
