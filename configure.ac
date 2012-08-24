@@ -6,6 +6,12 @@ AC_CONFIG_MACRO_DIR([m4])
 
 AC_PROG_LIBTOOL
 
+GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
+
+#m4_ifdef([GTK_DOC_CHECK],
+#         [GTK_DOC_CHECK([1.14],[--flavour no-tmpl])],
+#         [AM_CONDITIONAL([ENABLE_GTK_DOC],false)])
+
 MIN_GOBJECT_VERSION=2.30.0
 MIN_LIBSOUP_VERSION=2.30.0
 MIN_JANSSON_VERSION=2.3.0
@@ -39,7 +45,11 @@ AC_SUBST([JANSSON_LIBS])
 
 AC_PROG_CC
 
-AC_CONFIG_FILES([Makefile test/Makefile libappnet.pc])
+AC_CONFIG_FILES([Makefile
+                 libappnet/Makefile
+                 test/Makefile
+                 docs/reference/libappnet/Makefile
+                 libappnet.pc])
 
 AC_OUTPUT
 

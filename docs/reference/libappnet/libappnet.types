@@ -1,0 +1,6 @@
+app_net_client_get_type
+app_net_http_provider_get_type
+app_net_http_request_get_type
+app_net_http_response_get_type
+app_net_post_get_type
+app_net_soup_http_provider_get_type

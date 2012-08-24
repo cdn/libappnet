@@ -17,6 +17,6 @@ Makefile
 !/test/Makefile.am
 !/test/Makefile.in
 !/test/data
-/appnet/appnet.h
+/libappnet/appnet/appnet.h
 *.tar.gz
 

@@ -3,6 +3,7 @@
 set -ex
 
 aclocal --install -I m4 --force
+gtkdocize --copy
 autoconf
 if [ -z "$(which glibtoolize 2>/dev/null)" ]; then
     libtoolize --install --copy
