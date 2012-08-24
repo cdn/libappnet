@@ -18,6 +18,6 @@ libappnet_la_SOURCES = appnetclient.c \
 libappnet_la_CFLAGS = -Wall -Werror -I$(top_srcdir) @GOBJECT_CFLAGS@ @LIBSOUP_CFLAGS@ @JANSSON_CFLAGS@
 libappnet_la_LIBADD = @GOBJECT_LIBS@ @LIBSOUP_LIBS@ @JANSSON_LIBS@
 
-appnet/appnet.h: appnet
-	$(top_srcdir)/script/make-appnet-h $(srcdir) >appnet/appnet.h
+$(srcdir)/appnet/appnet.h:
+	$(top_srcdir)/script/make-appnet-h $(srcdir) >$(srcdir)/appnet/appnet.h
 

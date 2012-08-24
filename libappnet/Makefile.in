@@ -668,8 +668,8 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-nobase_includeHEADERS
 	uninstall-nobase_includeHEADERS
 
 
-appnet/appnet.h: appnet
-	$(top_srcdir)/script/make-appnet-h $(srcdir) >appnet/appnet.h
+$(srcdir)/appnet/appnet.h:
+	$(top_srcdir)/script/make-appnet-h $(srcdir) >$(srcdir)/appnet/appnet.h
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

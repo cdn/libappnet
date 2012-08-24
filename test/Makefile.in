@@ -73,7 +73,8 @@ am_test_appnetclient_OBJECTS =  \
 	test_appnetclient-test_appnetclient.$(OBJEXT) \
 	test_appnetclient-appnetstubhttpprovider.$(OBJEXT)
 test_appnetclient_OBJECTS = $(am_test_appnetclient_OBJECTS)
-test_appnetclient_DEPENDENCIES = $(top_srcdir)/libappnet/libappnet.la
+test_appnetclient_DEPENDENCIES =  \
+	$(top_builddir)/libappnet/libappnet.la
 test_appnetclient_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(test_appnetclient_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
@@ -246,7 +247,7 @@ dist_noinst_DATA = data/appnetclient_add-post \
 
 test_appnetclient_SOURCES = test_appnetclient.c appnetstubhttpprovider.c
 test_appnetclient_CFLAGS = -Wall -Werror -I$(top_srcdir)/libappnet @GOBJECT_CFLAGS@
-test_appnetclient_LDADD = $(top_srcdir)/libappnet/libappnet.la
+test_appnetclient_LDADD = $(top_builddir)/libappnet/libappnet.la
 all: all-am
 
 .SUFFIXES:
