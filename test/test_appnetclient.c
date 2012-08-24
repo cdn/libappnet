@@ -54,10 +54,14 @@ _app_net_client_add_post (void)
 
     make_app_net_client (&client, &stub);
 
+    g_assert (load_file ("appnetclient_add-post", &body, &bodylen));
+    /* glib 2.30 */
+    /*
     if (!load_file ("appnetclient_add-post", &body, &bodylen)) {
         g_test_fail ();
         return;
     }
+    */
 
     resp = app_net_http_response_new (200, body, bodylen);
     app_net_stub_http_provider_set_response (stub, resp);
@@ -93,10 +97,14 @@ _app_net_client_get_stream_before (void)
 
     make_app_net_client (&client, &stub);
 
+    g_assert (load_file ("appnetclient_timeline", &body, &bodylen));
+    /* glib 2.30 */
+    /*
     if (!load_file ("appnetclient_timeline", &body, &bodylen)) {
         g_test_fail ();
         return;
     }
+    */
 
     resp = app_net_http_response_new (200, body, bodylen);
     app_net_stub_http_provider_set_response (stub, resp);
