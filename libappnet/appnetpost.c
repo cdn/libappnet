@@ -303,7 +303,7 @@ app_net_post_get_html (const AppNetPost *self)
 }
 
 static void
-app_net_post_free (gpointer ptr)
+app_net_post_free (gpointer ptr, gpointer data)
 {
     AppNetPost *self = APP_NET_POST (ptr);
     g_object_unref (self);
@@ -312,6 +312,12 @@ app_net_post_free (gpointer ptr)
 void
 app_net_post_free_list (GList *posts)
 {
+    g_list_foreach (posts, app_net_post_free, NULL);
+    g_list_free (posts);
+
+    /* available in glib 2.28 */
+    /*
     g_list_free_full (posts, app_net_post_free);
+    */
 }
 
