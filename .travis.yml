@@ -4,5 +4,5 @@ install:
     - sudo apt-get install libjansson-dev
     - sudo apt-get install libglib2.0-dev
     - sudo apt-get install gtk-doc-tools
-script: "./configure && make && make check && make distcheck"
+script: "./configure --enable-gtk-doc && make && make check && make distcheck"
 
