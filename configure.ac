@@ -12,7 +12,7 @@ GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
 #         [GTK_DOC_CHECK([1.14],[--flavour no-tmpl])],
 #         [AM_CONDITIONAL([ENABLE_GTK_DOC],false)])
 
-MIN_GOBJECT_VERSION=2.30.0
+MIN_GOBJECT_VERSION=2.24.0
 MIN_LIBSOUP_VERSION=2.30.0
 MIN_JANSSON_VERSION=2.3.0
 #
