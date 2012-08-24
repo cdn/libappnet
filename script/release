@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -ex
+
+NEXT_VERSION="$1"
+
+if [ -z "$NEXT_VERSION" ]; then
+    echo "usage: $0 <new-version>" >&2
+    exit 1
+fi
+
+VERSION="$(grep ^AC_INIT configure.ac | sed -e 's/^AC_INIT(\[libappnet\],\[//g' -e 's/-SNAPSHOT\],\[github@tomlee.co\])$//g')"
+
+git checkout release
+git rebase master
+sed -e "s/$VERSION-SNAPSHOT/$VERSION/" -i'' configure.ac
+git add configure.ac
+git commit -m "Removed SNAPSHOT label"
+git tag v"$VERSION"
+
+echo "*** release branch now contains tagged $VERSION ***"
+
+git checkout master
+git rebase release
+sed -e "s/AC_INIT(\(.*\)\[$VERSION\]\(.*\))/AC_INIT(\1[$NEXT_VERSION-SNAPSHOT]\2)/g" -i'' configure.ac
+git add configure.ac
+git commit -m "Bumping version to $NEXT_VERSION-SNAPSHOT"
+
+echo "*** master moved to $NEXT_VERSION-SNAPSHOT ***"
+
