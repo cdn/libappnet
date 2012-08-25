@@ -3,12 +3,14 @@
 set -ex
 
 aclocal --install -I m4 --force
-gtkdocize --copy
+if which gtkdocize >/dev/null 2>&1; then
+    gtkdocize --copy
+fi
 autoconf
-if [ -z "$(which glibtoolize 2>/dev/null)" ]; then
-    libtoolize --install --copy
-else
+if which glibtoolize >/dev/null 2>&1; then
     glibtoolize --install --copy
+else
+    libtoolize --install --copy
 fi
 automake --add-missing --copy
 ./configure "$@"
