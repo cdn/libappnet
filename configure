@@ -11732,10 +11732,6 @@ fi
 
 
 
-#m4_ifdef([GTK_DOC_CHECK],
-#         [GTK_DOC_CHECK([1.14],[--flavour no-tmpl])],
-#         [AM_CONDITIONAL([ENABLE_GTK_DOC],false)])
-
 MIN_GOBJECT_VERSION=2.24.0
 MIN_LIBSOUP_VERSION=2.30.0
 MIN_JANSSON_VERSION=2.3.0
@@ -12904,7 +12900,7 @@ fi
 
 
 
-ac_config_files="$ac_config_files Makefile libappnet/Makefile test/Makefile docs/reference/libappnet/Makefile libappnet.pc"
+ac_config_files="$ac_config_files Makefile libappnet/Makefile test/Makefile docs/reference/libappnet/Makefile docs/reference/libappnet/libappnet-docs.sgml libappnet.pc"
 
 
 cat >confcache <<\_ACEOF
@@ -13947,6 +13943,7 @@ do
     "libappnet/Makefile") CONFIG_FILES="$CONFIG_FILES libappnet/Makefile" ;;
     "test/Makefile") CONFIG_FILES="$CONFIG_FILES test/Makefile" ;;
     "docs/reference/libappnet/Makefile") CONFIG_FILES="$CONFIG_FILES docs/reference/libappnet/Makefile" ;;
+    "docs/reference/libappnet/libappnet-docs.sgml") CONFIG_FILES="$CONFIG_FILES docs/reference/libappnet/libappnet-docs.sgml" ;;
     "libappnet.pc") CONFIG_FILES="$CONFIG_FILES libappnet.pc" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;

@@ -49,6 +49,7 @@ AC_CONFIG_FILES([Makefile
                  libappnet/Makefile
                  test/Makefile
                  docs/reference/libappnet/Makefile
+                 docs/reference/libappnet/libappnet-docs.sgml
                  libappnet.pc])
 
 AC_OUTPUT

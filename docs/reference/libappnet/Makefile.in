@@ -58,7 +58,7 @@ build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(top_srcdir)/gtk-doc.make
+	$(srcdir)/libappnet-docs.sgml.in $(top_srcdir)/gtk-doc.make
 subdir = docs/reference/libappnet
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
@@ -69,7 +69,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = libappnet-docs.sgml
 CONFIG_CLEAN_VPATH_FILES =
 SOURCES =
 DIST_SOURCES =
@@ -387,6 +387,8 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
+libappnet-docs.sgml: $(top_builddir)/config.status $(srcdir)/libappnet-docs.sgml.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 
 mostlyclean-libtool:
 	-rm -f *.lo

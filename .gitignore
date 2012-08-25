@@ -30,4 +30,5 @@ Makefile
 /docs/reference/libappnet/libappnet.prerequisites
 /docs/reference/libappnet/libappnet.signals
 /docs/reference/libappnet/libappnet.args
+/docs/reference/libappnet/libappnet-docs.sgml
 *.stamp

@@ -8,14 +8,14 @@
   <bookinfo>
     <title>libappnet Reference Manual</title>
     <releaseinfo>
-      for libappnet [VERSION].
+      for @PACKAGE@ @PACKAGE_VERSION@.
       The latest version of this documentation can be found on-line at
-      <ulink role="online-location" url="http://[SERVER]/libappnet/index.html">http://[SERVER]/libappnet/</ulink>.
+      <ulink role="online-location" url="http://github.com/thomaslee/libappnet">http://github.com/thomaslee/libappnet/</ulink>.
     </releaseinfo>
   </bookinfo>
 
   <chapter>
-    <title>[Insert title here]</title>
+    <title>@PACKAGE@</title>
         <xi:include href="xml/appnetclient.xml"/>
     <xi:include href="xml/appnethttpprovider.xml"/>
     <xi:include href="xml/appnethttprequest.xml"/>
