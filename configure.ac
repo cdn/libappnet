@@ -1,4 +1,4 @@
-AC_INIT([libappnet],[0.0.3-SNAPSHOT],[github@tomlee.co])
+AC_INIT([libappnet],[0.0.3],[github@tomlee.co])
 AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE([1.9 foreign])
 
