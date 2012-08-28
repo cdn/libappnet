@@ -33,3 +33,4 @@ Makefile
 /docs/reference/libappnet/libappnet.args
 /docs/reference/libappnet/libappnet-docs.sgml
 *.stamp
+/example/example

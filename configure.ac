@@ -46,6 +46,7 @@ AC_SUBST([JANSSON_LIBS])
 AC_PROG_CC
 
 AC_CONFIG_FILES([Makefile
+                 example/Makefile
                  libappnet/Makefile
                  test/Makefile
                  docs/reference/libappnet/Makefile

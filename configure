@@ -12900,7 +12900,7 @@ fi
 
 
 
-ac_config_files="$ac_config_files Makefile libappnet/Makefile test/Makefile docs/reference/libappnet/Makefile docs/reference/libappnet/libappnet-docs.sgml libappnet.pc"
+ac_config_files="$ac_config_files Makefile example/Makefile libappnet/Makefile test/Makefile docs/reference/libappnet/Makefile docs/reference/libappnet/libappnet-docs.sgml libappnet.pc"
 
 
 cat >confcache <<\_ACEOF
@@ -13940,6 +13940,7 @@ do
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
+    "example/Makefile") CONFIG_FILES="$CONFIG_FILES example/Makefile" ;;
     "libappnet/Makefile") CONFIG_FILES="$CONFIG_FILES libappnet/Makefile" ;;
     "test/Makefile") CONFIG_FILES="$CONFIG_FILES test/Makefile" ;;
     "docs/reference/libappnet/Makefile") CONFIG_FILES="$CONFIG_FILES docs/reference/libappnet/Makefile" ;;

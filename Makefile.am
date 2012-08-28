@@ -1,7 +1,7 @@
 ACLOCAL_AMFLAGS = -I m4
 DISTCHECK_CONFIGURE_FLAGS=--enable-gtk-doc
 
-SUBDIRS = . libappnet test docs/reference/libappnet
+SUBDIRS = . libappnet test docs/reference/libappnet example
 
 dist_noinst_SCRIPTS = script/make-appnet-h
 
