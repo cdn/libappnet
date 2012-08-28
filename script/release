@@ -16,7 +16,7 @@ git rebase master
 sed -e "s/$VERSION-SNAPSHOT/$VERSION/" -i'' configure.ac
 ./autogen
 git add configure.ac configure
-git commit -m "Removed SNAPSHOT label"
+git commit -m "Release v$VERSION"
 git tag v"$VERSION"
 
 echo "*** release branch now contains tagged $VERSION ***"
