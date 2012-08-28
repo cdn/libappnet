@@ -14,7 +14,8 @@ VERSION="$(grep ^AC_INIT configure.ac | sed -e 's/^AC_INIT(\[libappnet\],\[//g' 
 git checkout release
 git rebase master
 sed -e "s/$VERSION-SNAPSHOT/$VERSION/" -i'' configure.ac
-git add configure.ac
+./autogen
+git add configure.ac configure
 git commit -m "Removed SNAPSHOT label"
 git tag v"$VERSION"
 
@@ -23,7 +24,8 @@ echo "*** release branch now contains tagged $VERSION ***"
 git checkout master
 git rebase release
 sed -e "s/AC_INIT(\(.*\)\[$VERSION\]\(.*\))/AC_INIT(\1[$NEXT_VERSION-SNAPSHOT]\2)/g" -i'' configure.ac
-git add configure.ac
+./autogen
+git add configure.ac configure
 git commit -m "Bumping version to $NEXT_VERSION-SNAPSHOT"
 
 echo "*** master moved to $NEXT_VERSION-SNAPSHOT ***"
