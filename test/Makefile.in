@@ -53,8 +53,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-TESTS = test_appnetclient$(EXEEXT)
-check_PROGRAMS = test_appnetclient$(EXEEXT)
+TESTS = test_appnetclient$(EXEEXT) test_appnetparams$(EXEEXT)
+check_PROGRAMS = $(am__EXEEXT_1)
 subdir = test
 DIST_COMMON = $(dist_noinst_DATA) $(dist_noinst_HEADERS) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -69,6 +69,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
+am__EXEEXT_1 = test_appnetclient$(EXEEXT) test_appnetparams$(EXEEXT)
 am_test_appnetclient_OBJECTS =  \
 	test_appnetclient-test_appnetclient.$(OBJEXT) \
 	test_appnetclient-appnetstubhttpprovider.$(OBJEXT)
@@ -78,6 +79,15 @@ test_appnetclient_DEPENDENCIES =  \
 test_appnetclient_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(test_appnetclient_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
+	-o $@
+am_test_appnetparams_OBJECTS =  \
+	test_appnetparams-test_appnetparams.$(OBJEXT)
+test_appnetparams_OBJECTS = $(am_test_appnetparams_OBJECTS)
+test_appnetparams_DEPENDENCIES =  \
+	$(top_builddir)/libappnet/libappnet.la
+test_appnetparams_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(test_appnetparams_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -92,8 +102,9 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(test_appnetclient_SOURCES)
-DIST_SOURCES = $(test_appnetclient_SOURCES)
+SOURCES = $(test_appnetclient_SOURCES) $(test_appnetparams_SOURCES)
+DIST_SOURCES = $(test_appnetclient_SOURCES) \
+	$(test_appnetparams_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -248,6 +259,9 @@ dist_noinst_DATA = data/appnetclient_add-post \
 test_appnetclient_SOURCES = test_appnetclient.c appnetstubhttpprovider.c
 test_appnetclient_CFLAGS = -Wall -Werror -I$(top_srcdir)/libappnet @GOBJECT_CFLAGS@
 test_appnetclient_LDADD = $(top_builddir)/libappnet/libappnet.la
+test_appnetparams_SOURCES = test_appnetparams.c
+test_appnetparams_CFLAGS = -Wall -Werror -I$(top_srcdir)/libappnet @GOBJECT_CFLAGS@
+test_appnetparams_LDADD = $(top_builddir)/libappnet/libappnet.la
 all: all-am
 
 .SUFFIXES:
@@ -294,6 +308,9 @@ clean-checkPROGRAMS:
 test_appnetclient$(EXEEXT): $(test_appnetclient_OBJECTS) $(test_appnetclient_DEPENDENCIES) $(EXTRA_test_appnetclient_DEPENDENCIES) 
 	@rm -f test_appnetclient$(EXEEXT)
 	$(test_appnetclient_LINK) $(test_appnetclient_OBJECTS) $(test_appnetclient_LDADD) $(LIBS)
+test_appnetparams$(EXEEXT): $(test_appnetparams_OBJECTS) $(test_appnetparams_DEPENDENCIES) $(EXTRA_test_appnetparams_DEPENDENCIES) 
+	@rm -f test_appnetparams$(EXEEXT)
+	$(test_appnetparams_LINK) $(test_appnetparams_OBJECTS) $(test_appnetparams_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -303,6 +320,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_appnetclient-appnetstubhttpprovider.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_appnetclient-test_appnetclient.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_appnetparams-test_appnetparams.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -352,6 +370,20 @@ test_appnetclient-appnetstubhttpprovider.obj: appnetstubhttpprovider.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='appnetstubhttpprovider.c' object='test_appnetclient-appnetstubhttpprovider.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_appnetclient_CFLAGS) $(CFLAGS) -c -o test_appnetclient-appnetstubhttpprovider.obj `if test -f 'appnetstubhttpprovider.c'; then $(CYGPATH_W) 'appnetstubhttpprovider.c'; else $(CYGPATH_W) '$(srcdir)/appnetstubhttpprovider.c'; fi`
+
+test_appnetparams-test_appnetparams.o: test_appnetparams.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_appnetparams_CFLAGS) $(CFLAGS) -MT test_appnetparams-test_appnetparams.o -MD -MP -MF $(DEPDIR)/test_appnetparams-test_appnetparams.Tpo -c -o test_appnetparams-test_appnetparams.o `test -f 'test_appnetparams.c' || echo '$(srcdir)/'`test_appnetparams.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/test_appnetparams-test_appnetparams.Tpo $(DEPDIR)/test_appnetparams-test_appnetparams.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test_appnetparams.c' object='test_appnetparams-test_appnetparams.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_appnetparams_CFLAGS) $(CFLAGS) -c -o test_appnetparams-test_appnetparams.o `test -f 'test_appnetparams.c' || echo '$(srcdir)/'`test_appnetparams.c
+
+test_appnetparams-test_appnetparams.obj: test_appnetparams.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_appnetparams_CFLAGS) $(CFLAGS) -MT test_appnetparams-test_appnetparams.obj -MD -MP -MF $(DEPDIR)/test_appnetparams-test_appnetparams.Tpo -c -o test_appnetparams-test_appnetparams.obj `if test -f 'test_appnetparams.c'; then $(CYGPATH_W) 'test_appnetparams.c'; else $(CYGPATH_W) '$(srcdir)/test_appnetparams.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/test_appnetparams-test_appnetparams.Tpo $(DEPDIR)/test_appnetparams-test_appnetparams.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test_appnetparams.c' object='test_appnetparams-test_appnetparams.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_appnetparams_CFLAGS) $(CFLAGS) -c -o test_appnetparams-test_appnetparams.obj `if test -f 'test_appnetparams.c'; then $(CYGPATH_W) 'test_appnetparams.c'; else $(CYGPATH_W) '$(srcdir)/test_appnetparams.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

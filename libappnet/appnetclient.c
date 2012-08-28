@@ -7,6 +7,7 @@
 #include <appnet/appnetpost.h>
 #include <appnet/appnetpost-private.h>
 #include <appnet/appnetsouphttpprovider.h>
+#include <appnet/appnetparams.h>
 
 struct _AppNetClient {
     GObject base;
@@ -175,41 +176,25 @@ app_net_client_build_stream_path (
     gsize count
 )
 {
-    GPtrArray *params;
-    gchar **paramv;
+    GArray *params;
+    gchar *qs;
     gchar *final;
 
-    params = g_ptr_array_new ();
+    params = app_net_params_new ();
     if (before_id != NULL) {
-        gchar *encoded = g_uri_escape_string (
-            before_id, G_URI_RESERVED_CHARS_GENERIC_DELIMITERS, TRUE);
-        g_ptr_array_add (
-            params, g_strdup_printf ("before_id=%s", encoded));
-        g_free (encoded);
+        app_net_params_add_string (params, "before_id", before_id);
     }
     if (since_id != NULL) {
-        gchar *encoded = g_uri_escape_string (
-            since_id, G_URI_RESERVED_CHARS_GENERIC_DELIMITERS, TRUE);
-        g_ptr_array_add (
-            params, g_strdup_printf ("since_id=%s", encoded));
-        g_free (encoded);
+        app_net_params_add_string (params, "since_id", since_id);
     }
     if (count > 0) {
-        g_ptr_array_add (
-            params, g_strdup_printf ("count=%" G_GSIZE_FORMAT, count));
+        app_net_params_add_int64 (params, "count", count);
     }
-    g_ptr_array_set_size (params, params->len + 1);
-    paramv = (gchar **) g_ptr_array_free (params, FALSE);
-    if (paramv[0] != NULL) {
-        gchar *param_str = g_strjoinv ("&", paramv);
-        final = g_strdup_printf ("%s?%s", endpoint, param_str);
-        g_free (param_str);
-    }
-    else {
-        final = g_strdup (endpoint);
-    }
-    g_strfreev (paramv);
+    qs = app_net_params_format (params, TRUE);
+    app_net_params_free (params);
 
+    final = g_strconcat (endpoint, qs, NULL);
+    g_free (qs);
     return final;
 }
 
@@ -295,19 +280,16 @@ app_net_client_add_post (AppNetClient *self, const gchar *text)
     size_t size;
     json_error_t error;
     json_t *response = NULL;
-    gchar *body;
-    gchar *encoded_text;
-
-    encoded_text = g_uri_escape_string (
-        text, G_URI_RESERVED_CHARS_GENERIC_DELIMITERS, TRUE);
-    body = g_strdup_printf ("text=%s", encoded_text);
-    g_free (encoded_text);
+    GArray *params;
 
     app_net_client_create_api_call (self, &call, "%s", endpoint);
 
+    params = app_net_params_new ();
+    app_net_params_add_string (params, "text", text);
     /* XXX this is a bit yuck. call.body is cleaned up automatically. */
-    call.body = body;
-    call.body_size = strlen (body);
+    call.body = app_net_params_format (params, FALSE);
+    app_net_params_free (params);
+    call.body_size = strlen (call.body);
 
     data = app_net_client_exec_api_call (&call, method, &size);
 

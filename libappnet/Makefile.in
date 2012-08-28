@@ -101,7 +101,8 @@ am_libappnet_la_OBJECTS = libappnet_la-appnetclient.lo \
 	libappnet_la-appnetpost.lo libappnet_la-appnethttpprovider.lo \
 	libappnet_la-appnethttprequest.lo \
 	libappnet_la-appnethttpresponse.lo \
-	libappnet_la-appnetsouphttpprovider.lo
+	libappnet_la-appnetsouphttpprovider.lo \
+	libappnet_la-appnetparams.lo
 libappnet_la_OBJECTS = $(am_libappnet_la_OBJECTS)
 libappnet_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(libappnet_la_CFLAGS) \
@@ -271,6 +272,7 @@ nobase_include_HEADERS = appnet/appnetclient.h \
 						  appnet/appnethttprequest.h \
 						  appnet/appnethttpresponse.h \
 						  appnet/appnetpost.h \
+						  appnet/appnetparams.h \
 						  appnet/appnet.h
 
 dist_noinst_HEADERS = appnet/appnetpost-private.h
@@ -280,7 +282,8 @@ libappnet_la_SOURCES = appnetclient.c \
 					   appnethttpprovider.c \
 					   appnethttprequest.c \
 					   appnethttpresponse.c \
-					   appnetsouphttpprovider.c
+					   appnetsouphttpprovider.c \
+					   appnetparams.c
 
 libappnet_la_CFLAGS = -Wall -Werror -I$(top_srcdir) @GOBJECT_CFLAGS@ @LIBSOUP_CFLAGS@ @JANSSON_CFLAGS@
 libappnet_la_LIBADD = @GOBJECT_LIBS@ @LIBSOUP_LIBS@ @JANSSON_LIBS@
@@ -363,6 +366,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libappnet_la-appnethttpprovider.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libappnet_la-appnethttprequest.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libappnet_la-appnethttpresponse.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libappnet_la-appnetparams.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libappnet_la-appnetpost.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libappnet_la-appnetsouphttpprovider.Plo@am__quote@
 
@@ -428,6 +432,13 @@ libappnet_la-appnetsouphttpprovider.lo: appnetsouphttpprovider.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='appnetsouphttpprovider.c' object='libappnet_la-appnetsouphttpprovider.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libappnet_la_CFLAGS) $(CFLAGS) -c -o libappnet_la-appnetsouphttpprovider.lo `test -f 'appnetsouphttpprovider.c' || echo '$(srcdir)/'`appnetsouphttpprovider.c
+
+libappnet_la-appnetparams.lo: appnetparams.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libappnet_la_CFLAGS) $(CFLAGS) -MT libappnet_la-appnetparams.lo -MD -MP -MF $(DEPDIR)/libappnet_la-appnetparams.Tpo -c -o libappnet_la-appnetparams.lo `test -f 'appnetparams.c' || echo '$(srcdir)/'`appnetparams.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libappnet_la-appnetparams.Tpo $(DEPDIR)/libappnet_la-appnetparams.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='appnetparams.c' object='libappnet_la-appnetparams.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libappnet_la_CFLAGS) $(CFLAGS) -c -o libappnet_la-appnetparams.lo `test -f 'appnetparams.c' || echo '$(srcdir)/'`appnetparams.c
 
 mostlyclean-libtool:
 	-rm -f *.lo
