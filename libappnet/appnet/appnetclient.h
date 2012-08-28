@@ -39,5 +39,9 @@ app_net_client_get_stream_since (
 AppNetPost *
 app_net_client_add_post (AppNetClient *self, const gchar *text);
 
+AppNetPost *
+app_net_client_add_reply (
+    AppNetClient *self, const gchar *reply_to, const gchar *text);
+
 #endif
 

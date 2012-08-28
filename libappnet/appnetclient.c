@@ -271,6 +271,13 @@ app_net_client_get_stream_after (
 AppNetPost *
 app_net_client_add_post (AppNetClient *self, const gchar *text)
 {
+    return app_net_client_add_reply (self, NULL, text);
+}
+
+AppNetPost *
+app_net_client_add_reply (
+    AppNetClient *self, const gchar *reply_to, const gchar *text)
+{
     static const gchar method[] = "POST";
     static const gchar endpoint[] = "stream/0/posts";
 
@@ -286,6 +293,9 @@ app_net_client_add_post (AppNetClient *self, const gchar *text)
 
     params = app_net_params_new ();
     app_net_params_add_string (params, "text", text);
+    if (reply_to != NULL) {
+        app_net_params_add_string (params, "reply_to", reply_to);
+    }
     /* XXX this is a bit yuck. call.body is cleaned up automatically. */
     call.body = app_net_params_format (params, FALSE);
     app_net_params_free (params);
