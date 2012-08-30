@@ -24,6 +24,10 @@ struct _AppNetHttpProviderInterface {
 GType
 app_net_http_provider_get_type (void);
 
+/**
+ * app_net_http_provider_send_request:
+ * Returns: (transfer full):
+ */
 AppNetHttpResponse *
 app_net_http_provider_send_request (
     AppNetHttpProvider *self, AppNetHttpRequest *r);

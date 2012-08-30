@@ -1,5 +1,6 @@
 ACLOCAL_AMFLAGS = -I m4
-DISTCHECK_CONFIGURE_FLAGS=--enable-gtk-doc
+DISTCHECK_CONFIGURE_FLAGS=--enable-gtk-doc --enable-introspection
+EXTRA_DIST = m4/introspection.m4
 
 SUBDIRS = . libappnet test docs/reference/libappnet example
 

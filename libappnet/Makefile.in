@@ -16,6 +16,7 @@
 @SET_MAKE@
 
 
+
 VPATH = @srcdir@
 am__make_dryrun = \
   { \
@@ -53,15 +54,16 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
+@HAVE_INTROSPECTION_TRUE@am__append_1 = AppNet-1.0.gir
 subdir = libappnet
 DIST_COMMON = $(dist_noinst_HEADERS) $(nobase_include_HEADERS) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/m4/pkg.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/introspection.m4 $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/m4/pkg.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -94,7 +96,8 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" \
+	"$(DESTDIR)$(typelibsdir)" "$(DESTDIR)$(includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libappnet_la_DEPENDENCIES =
 am_libappnet_la_OBJECTS = libappnet_la-appnetclient.lo \
@@ -127,6 +130,7 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+DATA = $(gir_DATA) $(typelibs_DATA)
 HEADERS = $(dist_noinst_HEADERS) $(nobase_include_HEADERS)
 ETAGS = etags
 CTAGS = ctags
@@ -169,6 +173,14 @@ INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+INTROSPECTION_CFLAGS = @INTROSPECTION_CFLAGS@
+INTROSPECTION_COMPILER = @INTROSPECTION_COMPILER@
+INTROSPECTION_GENERATE = @INTROSPECTION_GENERATE@
+INTROSPECTION_GIRDIR = @INTROSPECTION_GIRDIR@
+INTROSPECTION_LIBS = @INTROSPECTION_LIBS@
+INTROSPECTION_MAKEFILE = @INTROSPECTION_MAKEFILE@
+INTROSPECTION_SCANNER = @INTROSPECTION_SCANNER@
+INTROSPECTION_TYPELIBDIR = @INTROSPECTION_TYPELIBDIR@
 JANSSON_CFLAGS = @JANSSON_CFLAGS@
 JANSSON_LIBS = @JANSSON_LIBS@
 LD = @LD@
@@ -285,8 +297,35 @@ libappnet_la_SOURCES = appnetclient.c \
 					   appnetsouphttpprovider.c \
 					   appnetparams.c
 
-libappnet_la_CFLAGS = -Wall -Werror -I$(top_srcdir) @GOBJECT_CFLAGS@ @LIBSOUP_CFLAGS@ @JANSSON_CFLAGS@
+libappnet_la_CFLAGS = -Wall -Werror -I$(srcdir) @GOBJECT_CFLAGS@ @LIBSOUP_CFLAGS@ @JANSSON_CFLAGS@
 libappnet_la_LIBADD = @GOBJECT_LIBS@ @LIBSOUP_LIBS@ @JANSSON_LIBS@
+INTROSPECTION_GIRS = $(am__append_1)
+INTROSPECTION_SCANNER_ARGS = --warn-all
+INTROSPECTION_COMPILER_ARGS = \
+							  --includedir=$(srcdir) \
+							  --includedir=.
+
+@HAVE_INTROSPECTION_TRUE@introspection_files = \
+@HAVE_INTROSPECTION_TRUE@  $(filter-out %private.h appnet/appnet.h appnet/appnetparams.h, $(nobase_include_HEADERS)) \
+@HAVE_INTROSPECTION_TRUE@  $(libappnet_la_SOURCES)
+
+@HAVE_INTROSPECTION_TRUE@AppNet_1_0_gir_SCANNERFLAGS = 
+#
+# Fixes KeyError in GI scripts when GObject is missing...
+#
+@HAVE_INTROSPECTION_TRUE@AppNet_1_0_gir_INCLUDES = GObject-2.0
+@HAVE_INTROSPECTION_TRUE@AppNet_1_0_gir_CFLAGS = $(AM_CPPFLAGS) -I$(srcdir) @GOBJECT_CFLAGS@
+#
+# XXX is there a way not to hard-code this?
+#
+@HAVE_INTROSPECTION_TRUE@AppNet_1_0_gir_LIBS = libappnet.la gobject-2.0 glib-2.0
+@HAVE_INTROSPECTION_TRUE@AppNet_1_0_gir_FILES = $(introspection_files)
+@HAVE_INTROSPECTION_TRUE@AppNet_1_0_gir_EXPORT_PACKAGES = appnet-1.0
+@HAVE_INTROSPECTION_TRUE@girdir = $(datadir)/gir-1.0
+@HAVE_INTROSPECTION_TRUE@gir_DATA = $(INTROSPECTION_GIRS)
+@HAVE_INTROSPECTION_TRUE@typelibsdir = $(libdir)/girepository-1.0
+@HAVE_INTROSPECTION_TRUE@typelibs_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
+@HAVE_INTROSPECTION_TRUE@CLEANFILES = $(gir_DATA) $(typelibs_DATA)
 all: all-am
 
 .SUFFIXES:
@@ -445,6 +484,48 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
+install-girDATA: $(gir_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(gir_DATA)'; test -n "$(girdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(girdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(girdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(girdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(girdir)" || exit $$?; \
+	done
+
+uninstall-girDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(gir_DATA)'; test -n "$(girdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(girdir)'; $(am__uninstall_files_from_dir)
+install-typelibsDATA: $(typelibs_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(typelibs_DATA)'; test -n "$(typelibsdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(typelibsdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(typelibsdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(typelibsdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(typelibsdir)" || exit $$?; \
+	done
+
+uninstall-typelibsDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(typelibs_DATA)'; test -n "$(typelibsdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(typelibsdir)'; $(am__uninstall_files_from_dir)
 install-nobase_includeHEADERS: $(nobase_include_HEADERS)
 	@$(NORMAL_INSTALL)
 	@list='$(nobase_include_HEADERS)'; test -n "$(includedir)" || list=; \
@@ -554,9 +635,9 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(HEADERS)
+all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" "$(DESTDIR)$(typelibsdir)" "$(DESTDIR)$(includedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -581,6 +662,7 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
@@ -612,7 +694,8 @@ info: info-am
 
 info-am:
 
-install-data-am: install-nobase_includeHEADERS
+install-data-am: install-girDATA install-nobase_includeHEADERS \
+	install-typelibsDATA
 
 install-dvi: install-dvi-am
 
@@ -658,7 +741,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES uninstall-nobase_includeHEADERS
+uninstall-am: uninstall-girDATA uninstall-libLTLIBRARIES \
+	uninstall-nobase_includeHEADERS uninstall-typelibsDATA
 
 .MAKE: install-am install-strip
 
@@ -667,20 +751,25 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-nobase_includeHEADERS
 	distclean-compile distclean-generic distclean-libtool \
 	distclean-tags distdir dvi dvi-am html html-am info info-am \
 	install install-am install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am \
+	install-dvi-am install-exec install-exec-am install-girDATA \
+	install-html install-html-am install-info install-info-am \
 	install-libLTLIBRARIES install-man \
 	install-nobase_includeHEADERS install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
+	install-ps install-ps-am install-strip install-typelibsDATA \
+	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-libLTLIBRARIES \
-	uninstall-nobase_includeHEADERS
+	tags uninstall uninstall-am uninstall-girDATA \
+	uninstall-libLTLIBRARIES uninstall-nobase_includeHEADERS \
+	uninstall-typelibsDATA
 
 
 $(srcdir)/appnet/appnet.h:
 	$(top_srcdir)/script/make-appnet-h $(srcdir) >$(srcdir)/appnet/appnet.h
+
+-include $(INTROSPECTION_MAKEFILE)
+
+@HAVE_INTROSPECTION_TRUE@AppNet-1.0.gir: $(INTROSPECTION_SCANNER) libappnet.la Makefile
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

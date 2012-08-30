@@ -28,17 +28,33 @@ app_net_client_new_with_http_provider (
     const gchar *token,
     AppNetHttpProvider *http_provider);
 
+/**
+ * app_net_client_get_stream_before:
+ * Returns: (transfer full) (element-type AppNet.Post):
+ */
 GList*
 app_net_client_get_stream_before (
     AppNetClient *self, const gchar *before_id, gsize count);
 
+/**
+ * app_net_client_get_stream_since:
+ * Returns: (transfer full) (element-type AppNet.Post):
+ */
 GList*
 app_net_client_get_stream_since (
     AppNetClient *self, const gchar *since_id, gsize count);
 
+/**
+ * app_net_client_add_post:
+ * Returns: (transfer full):
+ */
 AppNetPost *
 app_net_client_add_post (AppNetClient *self, const gchar *text);
 
+/**
+ * app_net_client_add_reply:
+ * Returns: (transfer full):
+ */
 AppNetPost *
 app_net_client_add_reply (
     AppNetClient *self, const gchar *reply_to, const gchar *text);

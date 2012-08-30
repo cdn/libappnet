@@ -28,6 +28,10 @@ void
 app_net_http_request_add_header (
     AppNetHttpRequest *self, const gchar *name, const gchar *value);
 
+/**
+ * app_net_http_request_get_headers:
+ * Returns: (element-type AppNet.HttpRequestHeader) (transfer none): The request headers
+ */
 GList *
 app_net_http_request_get_headers (const AppNetHttpRequest *self);
 

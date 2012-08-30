@@ -34,3 +34,5 @@ Makefile
 /docs/reference/libappnet/libappnet-docs.sgml
 *.stamp
 /example/example
+*.gir
+*.typelib

@@ -37,6 +37,10 @@ app_net_post_get_text (const AppNetPost *self);
 const gchar *
 app_net_post_get_html (const AppNetPost *self);
 
+/**
+ * app_net_post_free_list:
+ * @posts: (element-type AppNetPost): posts to free
+ */
 void
 app_net_post_free_list (GList *posts);
 
