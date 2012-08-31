@@ -309,7 +309,9 @@ INTROSPECTION_COMPILER_ARGS = \
 @HAVE_INTROSPECTION_TRUE@  $(filter-out %private.h appnet/appnet.h appnet/appnetparams.h, $(nobase_include_HEADERS)) \
 @HAVE_INTROSPECTION_TRUE@  $(libappnet_la_SOURCES)
 
-@HAVE_INTROSPECTION_TRUE@AppNet_1_0_gir_SCANNERFLAGS = 
+@HAVE_INTROSPECTION_TRUE@AppNet_1_0_gir_SCANNERFLAGS = \
+@HAVE_INTROSPECTION_TRUE@		--c-include "appnet/appnet.h"
+
 #
 # Fixes KeyError in GI scripts when GObject is missing...
 #
@@ -318,9 +320,9 @@ INTROSPECTION_COMPILER_ARGS = \
 #
 # XXX is there a way not to hard-code this?
 #
-@HAVE_INTROSPECTION_TRUE@AppNet_1_0_gir_LIBS = libappnet.la gobject-2.0 glib-2.0
+@HAVE_INTROSPECTION_TRUE@AppNet_1_0_gir_LIBS = libappnet.la
 @HAVE_INTROSPECTION_TRUE@AppNet_1_0_gir_FILES = $(introspection_files)
-@HAVE_INTROSPECTION_TRUE@AppNet_1_0_gir_EXPORT_PACKAGES = appnet-1.0
+@HAVE_INTROSPECTION_TRUE@AppNet_1_0_gir_EXPORT_PACKAGES = libappnet
 @HAVE_INTROSPECTION_TRUE@girdir = $(datadir)/gir-1.0
 @HAVE_INTROSPECTION_TRUE@gir_DATA = $(INTROSPECTION_GIRS)
 @HAVE_INTROSPECTION_TRUE@typelibsdir = $(libdir)/girepository-1.0
