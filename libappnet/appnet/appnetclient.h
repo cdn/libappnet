@@ -30,6 +30,7 @@ app_net_client_new_with_http_provider (
 
 /**
  * app_net_client_get_stream_before:
+ * @before_id: (allow-none):
  * Returns: (transfer full) (element-type AppNet.Post):
  */
 GList*
