@@ -55,6 +55,8 @@ build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
 @HAVE_INTROSPECTION_TRUE@am__append_1 = AppNet-1.0.gir
+@HAVE_INTROSPECTION_TRUE@am__append_2 = $(gir_DATA) $(typelibs_DATA)
+@HAVE_VAPIGEN_TRUE@am__append_3 = libappnet.vapi
 subdir = libappnet
 DIST_COMMON = $(dist_noinst_HEADERS) $(nobase_include_HEADERS) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -97,7 +99,8 @@ am__uninstall_files_from_dir = { \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" \
-	"$(DESTDIR)$(typelibsdir)" "$(DESTDIR)$(includedir)"
+	"$(DESTDIR)$(typelibsdir)" "$(DESTDIR)$(vapidir)" \
+	"$(DESTDIR)$(includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libappnet_la_DEPENDENCIES =
 am_libappnet_la_OBJECTS = libappnet_la-appnetclient.lo \
@@ -130,7 +133,7 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-DATA = $(gir_DATA) $(typelibs_DATA)
+DATA = $(gir_DATA) $(typelibs_DATA) $(vapi_DATA)
 HEADERS = $(dist_noinst_HEADERS) $(nobase_include_HEADERS)
 ETAGS = etags
 CTAGS = ctags
@@ -221,6 +224,7 @@ SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
+VAPIGEN = @VAPIGEN@
 VERSION = @VERSION@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
@@ -278,6 +282,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+CLEANFILES = $(am__append_2) $(am__append_3)
 nobase_include_HEADERS = appnet/appnetclient.h \
 						  appnet/appnethttpprovider.h \
 						  appnet/appnetsouphttpprovider.h \
@@ -327,7 +332,8 @@ INTROSPECTION_COMPILER_ARGS = \
 @HAVE_INTROSPECTION_TRUE@gir_DATA = $(INTROSPECTION_GIRS)
 @HAVE_INTROSPECTION_TRUE@typelibsdir = $(libdir)/girepository-1.0
 @HAVE_INTROSPECTION_TRUE@typelibs_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
-@HAVE_INTROSPECTION_TRUE@CLEANFILES = $(gir_DATA) $(typelibs_DATA)
+@HAVE_VAPIGEN_TRUE@vapidir = $(datadir)/vala/vapi
+@HAVE_VAPIGEN_TRUE@vapi_DATA = libappnet.vapi
 all: all-am
 
 .SUFFIXES:
@@ -528,6 +534,27 @@ uninstall-typelibsDATA:
 	@list='$(typelibs_DATA)'; test -n "$(typelibsdir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	dir='$(DESTDIR)$(typelibsdir)'; $(am__uninstall_files_from_dir)
+install-vapiDATA: $(vapi_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(vapi_DATA)'; test -n "$(vapidir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(vapidir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(vapidir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(vapidir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(vapidir)" || exit $$?; \
+	done
+
+uninstall-vapiDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(vapi_DATA)'; test -n "$(vapidir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(vapidir)'; $(am__uninstall_files_from_dir)
 install-nobase_includeHEADERS: $(nobase_include_HEADERS)
 	@$(NORMAL_INSTALL)
 	@list='$(nobase_include_HEADERS)'; test -n "$(includedir)" || list=; \
@@ -639,7 +666,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" "$(DESTDIR)$(typelibsdir)" "$(DESTDIR)$(includedir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" "$(DESTDIR)$(typelibsdir)" "$(DESTDIR)$(vapidir)" "$(DESTDIR)$(includedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -697,7 +724,7 @@ info: info-am
 info-am:
 
 install-data-am: install-girDATA install-nobase_includeHEADERS \
-	install-typelibsDATA
+	install-typelibsDATA install-vapiDATA
 
 install-dvi: install-dvi-am
 
@@ -744,7 +771,8 @@ ps: ps-am
 ps-am:
 
 uninstall-am: uninstall-girDATA uninstall-libLTLIBRARIES \
-	uninstall-nobase_includeHEADERS uninstall-typelibsDATA
+	uninstall-nobase_includeHEADERS uninstall-typelibsDATA \
+	uninstall-vapiDATA
 
 .MAKE: install-am install-strip
 
@@ -758,12 +786,13 @@ uninstall-am: uninstall-girDATA uninstall-libLTLIBRARIES \
 	install-libLTLIBRARIES install-man \
 	install-nobase_includeHEADERS install-pdf install-pdf-am \
 	install-ps install-ps-am install-strip install-typelibsDATA \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-girDATA \
-	uninstall-libLTLIBRARIES uninstall-nobase_includeHEADERS \
-	uninstall-typelibsDATA
+	install-vapiDATA installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am tags uninstall uninstall-am \
+	uninstall-girDATA uninstall-libLTLIBRARIES \
+	uninstall-nobase_includeHEADERS uninstall-typelibsDATA \
+	uninstall-vapiDATA
 
 
 $(srcdir)/appnet/appnet.h:
@@ -772,6 +801,9 @@ $(srcdir)/appnet/appnet.h:
 -include $(INTROSPECTION_MAKEFILE)
 
 @HAVE_INTROSPECTION_TRUE@AppNet-1.0.gir: $(INTROSPECTION_SCANNER) libappnet.la Makefile
+
+@HAVE_VAPIGEN_TRUE@libappnet.vapi: AppNet-1.0.gir Makefile
+@HAVE_VAPIGEN_TRUE@	@VAPIGEN@ --library=libappnet --metadatadir=$(srcdir) --vapidir=$(srcdir) --pkg gobject-2.0 --pkg libsoup-2.4 AppNet-1.0.gir
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

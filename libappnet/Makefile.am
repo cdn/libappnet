@@ -1,3 +1,5 @@
+CLEANFILES =
+
 nobase_include_HEADERS = appnet/appnetclient.h \
 						  appnet/appnethttpprovider.h \
 						  appnet/appnetsouphttpprovider.h \
@@ -56,7 +58,19 @@ gir_DATA = $(INTROSPECTION_GIRS)
 typelibsdir=$(libdir)/girepository-1.0
 typelibs_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
 
-CLEANFILES = $(gir_DATA) $(typelibs_DATA)
+CLEANFILES += $(gir_DATA) $(typelibs_DATA)
+
+endif
+
+if HAVE_VAPIGEN
+
+vapidir = $(datadir)/vala/vapi
+vapi_DATA = libappnet.vapi
+
+libappnet.vapi: AppNet-1.0.gir Makefile
+	@VAPIGEN@ --library=libappnet --metadatadir=$(srcdir) --vapidir=$(srcdir) --pkg gobject-2.0 --pkg libsoup-2.4 AppNet-1.0.gir
+
+CLEANFILES += libappnet.vapi
 
 endif
 

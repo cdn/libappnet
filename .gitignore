@@ -36,3 +36,4 @@ Makefile
 /example/example
 *.gir
 *.typelib
+*.vapi
